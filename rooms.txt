@@ -1,0 +1,4 @@
+Name:test
+Description:This is a pretty basic description of a room which is on multiple lines.
+Exit:north:test1
+Exit:south:test2
