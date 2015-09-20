@@ -47,6 +47,7 @@ def move(current_location, direction):
 	room_dict[current_location].set_exit(direction, 0)
 	if room_dict[current_location].exits[direction] == 0:
 		print ('You cannot go in that direction')
+		return current_location
 	else:
 		new_room = room_dict[current_location].exits[direction]
 		print ('\n' + room_dict[new_room].name, room_dict[new_room].description)

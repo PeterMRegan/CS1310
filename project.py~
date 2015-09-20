@@ -69,6 +69,7 @@ def movement_normalization(direction):
 		direction = direction
 	else:
 		direction = 0
+	return direction
 
 def parse_input(user_input):
 	temp_list = user_input.split(' ')
