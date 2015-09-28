@@ -129,14 +129,14 @@ def display_items(room):
 
 def get_item(room, user_command):
 	a = 0
-	temp = 2
-	temp_list = user_command.split()
-	if len(temp_list) == 1:
+	command_length = 2
+	command_list = user_command.split()
+	if len(command_list) == 1:
 		print ('Get what?')
 	else:
-		item = temp_list[1]
-		while temp < len(temp_list):
-			item = item + temp_list[temp]
+		item = command_list[1]
+		while command_length < len(command_list):
+			item = item + command_list[command_length]
 		found = False
 		while a < len(room_dict[room].items) and found == False:
 			b = 0
@@ -148,6 +148,7 @@ def get_item(room, user_command):
 						found == True
 					else:
 						print ('You can\'t carry that many items')
+						found == True
 				else:
 					b += 1
 			a += 1
