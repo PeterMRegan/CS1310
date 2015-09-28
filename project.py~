@@ -13,6 +13,10 @@ class room:
 		self.description = ''
 		self.exits = {}
 		self.items = []
+		self.display_name = 'Default'
+
+	def set_display_name(self, name):
+		self.display_name = name
 
 	def set_exit(self, direction, new_location):
 		self.exits.setdefault(direction, new_location)
@@ -31,6 +35,10 @@ class item:
 		self.name = name
 		self.dict = {}
 		self.keywords = []
+		self.display_name = 'Default'
+
+	def set_display_name(self, name):
+		self.display_name = name
 
 	def set_value(self, attribute, value):
 		self.dict.setdefault(attribute, value)
@@ -46,15 +54,16 @@ def initialize_items():
 		temp_list = line.split(':')
 		if temp_list[0] == 'Name':
 			current_item = temp_list[1].strip('\n')
-			item_dict.setdefault(current_item, item(temp_list[1]))
+			item_dict.setdefault(current_item, item(temp_list[1].strip('\n')))
+			item_dict[current_item].set_display_name(temp_list[2].strip('\n'))
 		elif temp_list[0] == 'Keyword':
 			a = 1
 			while a < len(temp_list):
-				item_dict[current_item].add_keyword(temp_list[a])
+				item_dict[current_item].add_keyword(temp_list[a].strip('\n'))
 				a += 1
-		elif temp_list[0] == 'Description1':
-			item_dict[current_item].set_value('primary description', temp_list[1].strip('\n'))
 		elif temp_list[0] == 'Description2':
+			item_dict[current_item].set_value('primary description', temp_list[1].strip('\n'))
+		elif temp_list[0] == 'Description1':
 			item_dict[current_item].set_value('visual description', temp_list[1].strip('\n'))
 		elif temp_list[0] == 'Value':
 			item_dict[current_item].set_value('value', int(temp_list[1].strip('\n')))
@@ -70,11 +79,15 @@ def initialize_rooms():
 		temp_list = line.split(':')
 		if temp_list[0] == 'Name':
 			current_room = temp_list[1].strip('\n')
-			room_dict.setdefault(current_room, room(temp_list[1]))
+			room_dict.setdefault(current_room, room(temp_list[1].strip('\n')))
+			room_dict[current_room].set_display_name(temp_list[2].strip('\n'))
 		elif temp_list[0] == 'Description':
 			room_dict[current_room].set_descr(temp_list[1].strip('\n'))
 		elif temp_list[0] == 'Exit':
 			room_dict[current_room].set_exit(temp_list[1],temp_list[2].rstrip('\n'))
+
+def display_room(room):
+	print ('\n' + room_dict[room].display_name + '\n' + room_dict[room].description)
 
 def move(current_location, direction):
 	room_dict[current_location].set_exit(direction, 0)
@@ -83,7 +96,8 @@ def move(current_location, direction):
 		return current_location
 	else:
 		new_room = room_dict[current_location].exits[direction]
-		print ('\n' + room_dict[new_room].name, room_dict[new_room].description)
+		display_room(new_room)
+		display_items(new_room)
 		return new_room
 
 def movement_normalization(direction):
@@ -120,12 +134,87 @@ def parse_input(user_input):
 	elif temp_list[0] == 'l' or temp_list[0] == 'look':
 		return 'look'
 
+def look(room, user_command):
+	a = 0
+	command_length = 2
+	command_list = user_command.split()
+	if len(command_list) == 1:
+		display_room(room)
+		display_items(room)
+	else:
+		item = command_list[1]
+		while command_length < len(command_list):
+			item = item + " " + command_list[command_length]
+			command_length += 1
+		found = False
+		while a < len(player_inventory) and found == False:
+			b = 0
+			while b < len(item_dict[player_inventory[a]].keywords) and found == False:
+				if item == item_dict[player_inventory[a]].keywords[b]:
+					print (item_dict[player_inventory[a]].dict['visual description'])
+					found = True
+				else:
+					b += 1
+			a += 1
+		a = 0
+		while a < len(room_dict[room].items) and found == False:
+			b = 0
+			while found == False and b < len(item_dict[room_dict[room].items[a]].keywords):
+				if item == item_dict[room_dict[room].items[a]].keywords[b]:
+					print (item_dict[room_dict[room].items[a]].dict['visual description'])
+					found = True
+				else:
+					b += 1
+			a += 1
+
+def inventory():
+	print ('You have:')
+	if len(player_inventory) == 0:
+		print ('Nothing!')
+	else:
+		for item in player_inventory:
+			print (item_dict[item].display_name)
+
 def display_items(room):
 	if len(room_dict[room].items) == 0:
 	 return 'no items'
 	else:
 		for item in range(0,len(room_dict[room].items)):
 			print (item_dict[room_dict[room].items[item]].dict['primary description'])
+
+def drop_item(room, user_command):
+	a = 0
+	command_length = 2
+	command_list = user_command.split()
+	if len(command_list) == 1:
+		print ('Drop what?')
+	else:
+		item = command_list[1]
+		while command_length < len(command_list):
+			item = item + " " + command_list[command_length]
+			command_length += 1
+		found = False
+		dropped = False
+		while a < len(player_inventory) and found == False:
+			b = 0
+			while b < len(item_dict[player_inventory[a]].keywords) and found == False:
+				if item == item_dict[player_inventory[a]].keywords[b]:
+					if len(room_dict[room].items) < MAX_ITEMS:
+						room_dict[room].add_item(player_inventory[a])
+						print ('You drop the', player_inventory[a])
+						found = True
+						dropped = True
+					else:
+						print ('There\'s not enough room for that here')
+						found = True
+				else:
+					b += 1
+			if found == False:
+				a += 1
+		if found == False:
+			print ('You don\'t have that item')
+		elif found == True and dropped == True:
+			player_inventory.remove(player_inventory[a])
 
 def get_item(room, user_command):
 	a = 0
@@ -136,8 +225,10 @@ def get_item(room, user_command):
 	else:
 		item = command_list[1]
 		while command_length < len(command_list):
-			item = item + command_list[command_length]
+			item = item + " " + command_list[command_length]
+			command_length += 1
 		found = False
+		aquired = False
 		while a < len(room_dict[room].items) and found == False:
 			b = 0
 			while found == False and b < len(item_dict[room_dict[room].items[a]].keywords):
@@ -146,15 +237,17 @@ def get_item(room, user_command):
 						player_inventory.append(room_dict[room].items[a])
 						print ('You get the', room_dict[room].items[a])
 						found = True
+						aquired = True
 					else:
 						print ('You can\'t carry that many items')
 						found = True
 				else:
 					b += 1
-			a += 1
+			if found == False:
+				a += 1
 		if found == False:
 			print ('That item is not here.')
-		else:
+		elif found == True and aquired == True:
 			room_dict[room].rem_item(room_dict[room].items[a])
 
 def main():
@@ -164,7 +257,7 @@ def main():
 	game_over = 0
 	user_command = 0
 	input ('Welcome to Peter\'s silly game! Please use north, south, east, west, up, down to move around. Other commands will become avaliable later! (Press Enter to continue)')
-	print ('\n', room_dict[current_room].name, room_dict[current_room].description)
+	print ('\n', room_dict[current_room].display_name + '\n', room_dict[current_room].description)
 	display_items(current_room)
 	while game_over != 1:
 		user_command = input (':')
@@ -176,8 +269,15 @@ def main():
 			current_room = move(current_room, direction)
 		elif action == 'get item':
 			get_item(current_room, user_command)
+		elif action == 'drop item':
+			drop_item(current_room, user_command)
+		elif action == 'inventory':
+			inventory()
+		elif action == 'look':
+			look(current_room, user_command)
 		else:
 			print ('That was not a recognized command, please try again')
 
 	print ('Goodbye, thanks for playing!')
+
 main()

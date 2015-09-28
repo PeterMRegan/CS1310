@@ -8,5 +8,5 @@ Description:This is a secondary test room to see if movement works. The only exi
 Exit:south:test0
 
 Name:test2
-Description:This is a third test room for testing movement
+Description:This is a third test room for testing movement. The only exit is to the north.
 Exit:north:test0
