@@ -145,13 +145,14 @@ def get_item(room, user_command):
 					if len(player_inventory) < MAX_ITEMS:
 						player_inventory.append(room_dict[room].items[a])
 						print ('You get the', room_dict[room].items[a])
-						found == True
+						found = True
 					else:
 						print ('You can\'t carry that many items')
-						found == True
+						found = True
 				else:
 					b += 1
-			a += 1
+			if found == False:
+				a += 1
 		if found == False:
 			print ('That item is not here.')
 		else:
