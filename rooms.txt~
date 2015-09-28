@@ -1,12 +1,12 @@
-Name:test0
+Name:test0:The Blackened Corpse of God
 Description:This is a pretty basic description of a room which is on multiple lines. Exits are to the north and south.
-Exit:north:test1
-Exit:south:test2
+Exit:north:test1:blocked:test_item:possesses:A force field prevents you from going that way.:The Ultimate Testing Item opens a hole in the force field.
+Exit:south:test2:blocked:test_item:break:The vast emptiness of the void prevents you from progressing.:You shatter the Ultimate Testing Item and the shards fly into the void sealing it forever.
 
-Name:test1
+Name:test1:Broken Dreams
 Description:This is a secondary test room to see if movement works. The only exit is to the south.
-Exit:south:test0
+Exit:south:test0:unblocked
 
-Name:test2
+Name:test2:Shattered Hope
 Description:This is a third test room for testing movement. The only exit is to the north.
-Exit:north:test0
+Exit:north:test0:unblocked

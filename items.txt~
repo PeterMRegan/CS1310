@@ -1,6 +1,7 @@
-Name:test item
+Name:test_item:The Ultimate Testing Item
 Keyword:test:item
 Description1:This seemingly useless item is simply for testing purposes.
 Description2:A worthless looking test item is laying here.
+Usage:break:test0
 Value:0
 Location:test0
