@@ -13,7 +13,11 @@ class room:
 		self.description = ''
 		self.exits = {}
 		self.items = []
+		self.darkness = 0
 		self.display_name = 'Default'
+
+	def set_darkness(self, darkness):
+		self.darkness = darkness
 
 	def set_display_name(self, name):
 		self.display_name = name
@@ -67,6 +71,8 @@ def initialize_items():
 			item_dict[current_item].set_value('visual description', temp_list[1].strip('\n'))
 		elif temp_list[0] == 'Usage':
 			item_dict[current_item].set_value('usage', temp_list[1].strip('\n'))
+		elif temp_list[0] == 'Light':
+			item_dict[current_item].set_value('light', int(temp_list[1].strip('\n')))
 		elif temp_list[0] == 'Value':
 			item_dict[current_item].set_value('value', int(temp_list[1].strip('\n')))
 		elif temp_list[0] == 'Location':
@@ -85,6 +91,8 @@ def initialize_rooms():
 			room_dict[current_room].set_display_name(temp_list[2].strip('\n'))
 		elif temp_list[0] == 'Description':
 			room_dict[current_room].set_descr(temp_list[1].strip('\n'))
+		elif temp_list[0] == 'Dark':
+			room_dict[current_room].set_darkness(int(temp_list[1].strip('\n')))
 		elif temp_list[0] == 'Exit':
 			room_exit = []
 			for attribute in temp_list:
@@ -94,17 +102,50 @@ def initialize_rooms():
 def display_room(room):
 	print ('\n' + room_dict[room].display_name + '\n' + room_dict[room].description)
 
+def has_light():
+	found = False
+	a = 0
+	while a < len(player_inventory) and found == False:
+		if player_inventory[a] == 'light_item':
+			found = True
+		else:
+			a += 1
+	if found == True and item_dict[player_inventory[a]].dict['light'] > 0:
+		return True
+	else:
+		return False
+
+def manage_light(room):
+	old_light = item_dict['light_item'].dict['light']
+	item_dict['light_item'].dict['light'] -= room_dict[room].darkness
+	if item_dict['light_item'].dict['light'] <= 0:
+		print ('The darkness extinquishes your light of hope and overwhelms your senses.')
+		return True
+	elif item_dict['light_item'].dict['light'] % 10 > old_light % 10:
+		print ('Your light of hope dims.')
+		return False
+	else:
+		return False
+
 def move(current_location, direction):
 	room_dict[current_location].set_exit(direction, 0)
 	if room_dict[current_location].exits[direction] == 0:
-		print ('You cannot go in that direction')
+		print ('You cannot go in that direction.')
 		return current_location
 	else:
 		if room_dict[current_location].exits[direction][3] == 'unblocked':
 			new_room = room_dict[current_location].exits[direction][2]
-			display_room(new_room)
-			display_items(new_room)
-			return new_room
+			if room_dict[new_room].darkness > 0 and has_light() == True:
+				display_room(new_room)
+				display_items(new_room)
+				return new_room
+			elif room_dict[new_room].darkness == 0:
+				display_room(new_room)
+				display_items(new_room)
+				return new_room
+			else:
+				print ('The overwhelming darkness prevents you from going that way.')
+				return current_location
 		elif room_dict[current_location].exits[direction][5] == 'possesses' and has_item(room_dict[current_location].exits[direction][4]) == True:
 			new_room = room_dict[current_location].exits[direction][2]
 			print (room_dict[current_location].exits[direction][7])
@@ -171,6 +212,18 @@ def parse_input(user_input):
 		if found == False:
 			return 'unknown'
 
+def light_strength():
+	if item_dict['light_item'].dict['light'] > 100:
+		return 'The light eminating from this orb is blinding.'
+	elif item_dict['light_item'].dict['light'] > 80:
+		return 'A strong light pulses from this orb.'
+	elif item_dict['light_item'].dict['light'] > 50:
+		return 'This orb glows moderately.'
+	elif item_dict['light_item'].dict['light'] > 20:
+		return 'The light from this orb is dim.'
+	else:
+		return 'The orb only contains the barest spark of light.'
+
 def look(room, user_command):
 	a = 0
 	command_length = 2
@@ -188,6 +241,8 @@ def look(room, user_command):
 			b = 0
 			while b < len(item_dict[player_inventory[a]].keywords) and found == False:
 				if item == item_dict[player_inventory[a]].keywords[b]:
+					if item_dict[player_inventory[a]] == 'light_item':
+						print (light_strength())
 					print (item_dict[player_inventory[a]].dict['visual description'])
 					found = True
 				else:
@@ -198,6 +253,8 @@ def look(room, user_command):
 			b = 0
 			while found == False and b < len(item_dict[room_dict[room].items[a]].keywords):
 				if item == item_dict[room_dict[room].items[a]].keywords[b]:
+					if item_dict[room_dict[room].items[a]] == 'light_item':
+						print (light_strength())
 					print (item_dict[room_dict[room].items[a]].dict['visual description'])
 					found = True
 				else:
@@ -319,19 +376,20 @@ def main():
 	initialize_rooms()
 	initialize_items()
 	current_room = 'test0'
-	game_over = 0
 	user_command = 0
+	game_over = False
 	input ('Welcome to Peter\'s silly game! Please use north, south, east, west, up, down to move around. Other commands will become avaliable later! (Press Enter to continue)')
 	display_room(current_room)
 	display_items(current_room)
-	while game_over != 1:
+	while game_over == False:
 		user_command = input (':')
 		action = parse_input(user_command)
 		if action == 'quiting':
-			game_over = 1
+			game_over = True
 		elif action == 'movement':
 			direction = movement_normalization(user_command)
 			current_room = move(current_room, direction)
+			game_over = manage_light(current_room)
 		elif action == 'get item':
 			get_item(current_room, user_command)
 		elif action == 'drop item':

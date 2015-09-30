@@ -1,7 +1,7 @@
-Name:test_item:The Ultimate Testing Item
-Keyword:test:item
-Description1:This seemingly useless item is simply for testing purposes.
-Description2:A worthless looking test item is laying here.
-Usage:break
+Name:light_item:The Light of Hope
+Keyword:hope:light:light of hope:orb:glowing orb
+Description1:This glowing crystal orb burns with the inner fire of your hope.
+Description2:A glowing crystal orb lies here abandoned.
 Value:0
+Light:10
 Location:test0
