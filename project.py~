@@ -128,7 +128,8 @@ def manage_light(room):
 		return False
 
 def move(current_location, direction):
-	room_dict[current_location].set_exit(direction, 0)
+	default_list = []
+	room_dict[current_location].set_exit(direction, default_list)
 	if room_dict[current_location].exits[direction] == 0:
 		print ('You cannot go in that direction.')
 		return current_location
@@ -170,7 +171,7 @@ def movement_normalization(direction):
 	if direction == 'n':
 		direction = 'north'
 	elif direction == 'e':
-		direction = 'up'
+		direction = 'east'
 	elif direction == 's':
 		direction = 'south'
 	elif direction == 'w':
@@ -241,10 +242,10 @@ def look(room, user_command):
 			b = 0
 			while b < len(item_dict[player_inventory[a]].keywords) and found == False:
 				if item == item_dict[player_inventory[a]].keywords[b]:
-					if item_dict[player_inventory[a]] == 'light_item':
-						print (light_strength())
 					print (item_dict[player_inventory[a]].dict['visual description'])
 					found = True
+					if player_inventory[a] == 'light_item':
+						print (light_strength())
 				else:
 					b += 1
 			a += 1
@@ -253,10 +254,10 @@ def look(room, user_command):
 			b = 0
 			while found == False and b < len(item_dict[room_dict[room].items[a]].keywords):
 				if item == item_dict[room_dict[room].items[a]].keywords[b]:
-					if item_dict[room_dict[room].items[a]] == 'light_item':
-						print (light_strength())
 					print (item_dict[room_dict[room].items[a]].dict['visual description'])
 					found = True
+					if room_dict[room].items[a] == 'light_item':
+						print (light_strength())
 				else:
 					b += 1
 			a += 1
@@ -295,7 +296,7 @@ def drop_item(room, user_command):
 				if item == item_dict[player_inventory[a]].keywords[b]:
 					if len(room_dict[room].items) < MAX_ITEMS:
 						room_dict[room].add_item(player_inventory[a])
-						print ('You drop the', item_dict[player_inventory[a]].display_name)
+						print ('You drop', item_dict[player_inventory[a]].display_name)
 						found = True
 						dropped = True
 					else:
@@ -329,7 +330,7 @@ def get_item(room, user_command):
 				if item == item_dict[room_dict[room].items[a]].keywords[b]:
 					if len(player_inventory) < MAX_ITEMS:
 						player_inventory.append(room_dict[room].items[a])
-						print ('You get the', item_dict[room_dict[room].items[a]].display_name)
+						print ('You get', item_dict[room_dict[room].items[a]].display_name)
 						found = True
 						aquired = True
 					else:
@@ -375,7 +376,7 @@ def use_item(user_command, room):
 def main():
 	initialize_rooms()
 	initialize_items()
-	current_room = 'test0'
+	current_room = 'initial_room'
 	user_command = 0
 	game_over = False
 	input ('Welcome to Peter\'s silly game! Please use north, south, east, west, up, down to move around. Other commands will become avaliable later! (Press Enter to continue)')

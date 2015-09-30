@@ -2,5 +2,21 @@ Name:light_item:The Light of Hope
 Keyword:hope:light:light of hope:orb:glowing orb
 Description1:This glowing crystal orb burns with the inner fire of your hope.
 Description2:A glowing crystal orb lies here abandoned.
-Value:10
-Location:test0
+Value:0
+Light:10
+Location:obsidian_spire
+
+Name:grappling_hook:A grappling hook
+Keyword:grappling hook:rope:hook
+Description1:A standard grappling hook attached to a length of rope.
+Description2:A length of rope with a metal hook at the end lies coiled up here.
+Value:0
+Usage:throw
+Location:valley_south_end
+
+Name:heavy_boots:A pair of thick boots
+Keyword:boots:heavy boots:thick boots
+Description1:A pair of extreme heavy work boots
+Description2:Someone has left a pair of heavy boots here.
+Value:20
+Location:obsidian_hole
