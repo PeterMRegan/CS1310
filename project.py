@@ -2,6 +2,10 @@
 #19 Sept 2015
 #Python Project for CS1310
 
+#!/usr/bin/python3
+import os
+os.chdir("/mnt/sda1/cs1310/public_html/Text");
+
 room_dict = {}
 item_dict = {}
 player_inventory = []
@@ -61,13 +65,16 @@ def initialize_items():
 			item_dict.setdefault(current_item, item(temp_list[1].strip('\n')))
 			item_dict[current_item].set_display_name(temp_list[2].strip('\n'))
 		elif temp_list[0] == 'Keyword':
+			current_attribute = 'Keyword'
 			a = 1
 			while a < len(temp_list):
 				item_dict[current_item].add_keyword(temp_list[a].strip('\n'))
 				a += 1
 		elif temp_list[0] == 'Description2':
+			current_attribute = 'Description2'
 			item_dict[current_item].set_value('primary description', temp_list[1].strip('\n'))
 		elif temp_list[0] == 'Description1':
+			current_attribute = 'Description1'
 			item_dict[current_item].set_value('visual description', temp_list[1].strip('\n'))
 		elif temp_list[0] == 'Usage':
 			item_dict[current_item].set_value('usage', temp_list[1].strip('\n'))
@@ -78,9 +85,22 @@ def initialize_items():
 		elif temp_list[0] == 'Location':
 			item_location = temp_list[1].strip('\n')
 			room_dict[item_location].add_item(current_item)
+		else:
+			if current_attribute == 'Description1':
+				item_dict[current_item].dict['visual description'] = item_dict[current_item].dict['visual description'] + temp_list[0].strip('\n')
+			elif current_attribute == 'Description2':
+				item_dict[current_item].dict['primary description'] = item_dict[current_item].dict['primary description'] + temp_list[0].strip('\n')
+			elif current_attribute == 'Keyword':
+				a = 0
+				while a < len(temp_list):
+					item_dict[current_item].add_keyword(temp_list[a].strip('\n'))
+					a += 1
+			else:
+				print ('Something broke during item initialization please report this to Peter Regan')
 
 def initialize_rooms():
 	temp_list = []
+	current_attribute = 0
 	current_room = 0
 	room_file = open('rooms.txt', 'r')
 	for line in room_file:
@@ -90,14 +110,28 @@ def initialize_rooms():
 			room_dict.setdefault(current_room, room(temp_list[1].strip('\n')))
 			room_dict[current_room].set_display_name(temp_list[2].strip('\n'))
 		elif temp_list[0] == 'Description':
+			current_attribute = 'Description'
 			room_dict[current_room].set_descr(temp_list[1].strip('\n'))
 		elif temp_list[0] == 'Dark':
 			room_dict[current_room].set_darkness(int(temp_list[1].strip('\n')))
 		elif temp_list[0] == 'Exit':
+			current_attribute = 'Exit'
 			room_exit = []
+			current_exit = temp_list[1]
 			for attribute in temp_list:
 				room_exit.append(attribute.strip('\n'))
 			room_dict[current_room].set_exit(temp_list[1],room_exit)
+		else:
+			if current_attribute == 'Description':
+				room_dict[current_room].description = room_dict[current_room].description + temp_list[0].strip('\n')
+			elif current_attribute == 'Exit':
+				room_exit[(len(room_exit) - 1)] = room_exit[(len(room_exit) - 1)] + temp_list[0].strip('\n')
+				for attribute in temp_list:
+					if attribute != temp_list[0]:
+						room_exit.append(attribute.strip('\n'))
+				room_dict[current_room].exits[current_exit] = room_exit
+			else:
+				print ('Something broke during room initialization. Please report this to Peter Regan.')
 
 def display_room(room):
 	print ('\n' + room_dict[room].display_name + '\n' + room_dict[room].description)
@@ -127,6 +161,11 @@ def manage_light(room):
 	else:
 		return False
 
+def display_exits(room):
+	for exit in room_dict[room].exits:
+		print (exit)
+		print (room_dict[room].exits[exit][3])
+
 def move(current_location, direction):
 	default_list = []
 	room_dict[current_location].set_exit(direction, default_list)
@@ -139,10 +178,12 @@ def move(current_location, direction):
 			if room_dict[new_room].darkness > 0 and has_light() == True:
 				display_room(new_room)
 				display_items(new_room)
+				display_exits(new_room)
 				return new_room
 			elif room_dict[new_room].darkness == 0:
 				display_room(new_room)
 				display_items(new_room)
+				display_exits(new_room)
 				return new_room
 			else:
 				print ('The overwhelming darkness prevents you from going that way.')
@@ -382,9 +423,10 @@ def main():
 	input ('Welcome to Peter\'s silly game! Please use north, south, east, west, up, down to move around. Other commands will become avaliable later! (Press Enter to continue)')
 	display_room(current_room)
 	display_items(current_room)
+	display_exits(current_room)
 	while game_over == False:
 		user_command = input (':')
-		action = parse_input(user_command)
+		action = parse_input(user_command.rstrip('\r\n'))
 		if action == 'quiting':
 			game_over = True
 		elif action == 'movement':

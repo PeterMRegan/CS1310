@@ -1,5 +1,7 @@
 Name:initial_room:Obsidian Valley
-Description:You find yourself in a vast valley with strange obsidian walls. The oppressive heat from the sun is nearly overwhelming when reflected off the black surfaces around you. The valley runs north to south, the walls are unscalable.
+Description:You find yourself in a vast valley with strange obsidian walls.
+The oppressive heat from the sun is nearly overwhelming when reflected off the
+black surfaces around you. The valley runs north to south, the walls are unscalable.
 Dark:0
 Exit:north:valley_n:unblocked
 Exit:south:valley_s:unblocked
@@ -7,7 +9,9 @@ Exit:south:valley_s:unblocked
 Name:valley_n:Dead End
 Description:You've come to a dead end in the obsidian valley, huge jagged obsidian shards block your progress north. There's a small ledge on the eastern wall that you might be able to climb up to, or you can head back south.
 Dark:0
-Exit:up:obsidian_ledge:blocked:grappling_hook:usage:The path upwards isn't as easy to climb as you had thought. Maybe if you had something to help you climb up.:The grappling hook catches onto the ledge above allowing you to climb up.
+Exit:up:obsidian_ledge:blocked:grappling_hook:usage:The path upwards isn't as easy
+to climb as you had thought. Maybe if you had something to help you climb up.:The 
+grappling hook catches onto the ledge above allowing you to climb up.
 Exit:south:initial_room:unblocked
 
 Name:valley_s:Obsidian Valley
@@ -18,7 +22,7 @@ Exit:south:obsidian_spire:unblocked
 Exit:west:obsidian_hole:unblocked
 
 Name:obsidian_hole:A hole in the valley wall
-Description:The sun doesn't stretch into this dark hole, only the light you've brought illuminates your surroundings. The body of some poor adventurer lies abandoned in the corner. The only exit is back to the west.
+Description:The sun doesn't stretch into this dark hole, only the light you've brought illuminates your surroundings. The body of some poor adventurer lies abandoned in the corner. The only exit is back to the east.
 Dark:1
 Exit:east:valley_s:unblocked
 
