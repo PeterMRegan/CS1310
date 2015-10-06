@@ -1,10 +1,12 @@
-#Peter Regan
-#19 Sept 2015
-#Python Project for CS1310
-
-#!/usr/bin/python3
+'''#!/usr/bin/python3
 import os
-os.chdir("/mnt/sda1/cs1310/public_html/Text");
+os.chdir("/mnt/sda1/cs1310/public_html/Text");'''
+
+#Peter Regan
+#29 Sept 2015
+#Python Project for CS1310
+#Adapted for telnet by David Regan
+
 
 room_dict = {}
 item_dict = {}
@@ -55,12 +57,15 @@ class item:
 		self.keywords.append(keyword)
 
 def initialize_items():
+	current_attribute = 0
 	temp_list = []
-	list_file = open('items.txt', 'r')
+	item_file = open('items.txt', 'r')
 	current_item = 0
-	for line in list_file:
+	for line in item_file:
 		temp_list = line.split(':')
-		if temp_list[0] == 'Name':
+		if line[0] == '#':
+			return 'comment'
+		elif temp_list[0] == 'Name':
 			current_item = temp_list[1].strip('\n')
 			item_dict.setdefault(current_item, item(temp_list[1].strip('\n')))
 			item_dict[current_item].set_display_name(temp_list[2].strip('\n'))
@@ -95,8 +100,7 @@ def initialize_items():
 				while a < len(temp_list):
 					item_dict[current_item].add_keyword(temp_list[a].strip('\n'))
 					a += 1
-			else:
-				print ('Something broke during item initialization please report this to Peter Regan')
+	item_file.close()
 
 def initialize_rooms():
 	temp_list = []
@@ -120,7 +124,7 @@ def initialize_rooms():
 			current_exit = temp_list[1]
 			for attribute in temp_list:
 				room_exit.append(attribute.strip('\n'))
-			room_dict[current_room].set_exit(temp_list[1],room_exit)
+				room_dict[current_room].set_exit(temp_list[1],room_exit)
 		else:
 			if current_attribute == 'Description':
 				room_dict[current_room].description = room_dict[current_room].description + temp_list[0].strip('\n')
@@ -130,8 +134,7 @@ def initialize_rooms():
 					if attribute != temp_list[0]:
 						room_exit.append(attribute.strip('\n'))
 				room_dict[current_room].exits[current_exit] = room_exit
-			else:
-				print ('Something broke during room initialization. Please report this to Peter Regan.')
+	room_file.close()
 
 def display_room(room):
 	print ('\n' + room_dict[room].display_name + '\n' + room_dict[room].description)
@@ -170,6 +173,7 @@ def move(current_location, direction):
 	default_list = []
 	room_dict[current_location].set_exit(direction, default_list)
 	if room_dict[current_location].exits[direction] == default_list:
+		room_dict[current_location].exits.pop(direction)
 		print ('You cannot go in that direction.')
 		return current_location
 	else:
@@ -178,12 +182,12 @@ def move(current_location, direction):
 			if room_dict[new_room].darkness > 0 and has_light() == True:
 				display_room(new_room)
 				display_items(new_room)
-				display_exits(new_room)
+				#display_exits(new_room)
 				return new_room
 			elif room_dict[new_room].darkness == 0:
 				display_room(new_room)
 				display_items(new_room)
-				display_exits(new_room)
+				#display_exits(new_room)
 				return new_room
 			else:
 				print ('The overwhelming darkness prevents you from going that way.')
@@ -241,6 +245,8 @@ def parse_input(user_input):
 		return 'inventory'
 	elif temp_list[0] == 'l' or temp_list[0] == 'look':
 		return 'look'
+	elif temp_list[0] == 'sacrifice' or temp_list[0] == 'sac':
+		return 'sacrifice'
 	else:
 		a = 0
 		found = False
@@ -386,6 +392,53 @@ def get_item(room, user_command):
 		elif found == True and aquired == True:
 			room_dict[room].rem_item(room_dict[room].items[a])
 
+def sacrifice(room, user_command):
+	a = 0
+	found = False
+	command_length = 2
+	command_list = user_command.split()
+	item = ''
+	if len(command_list) == 1:
+		print ('Sacrifice what?')
+		return 0
+	else:
+		item = command_list[1]
+		while command_length < len(command_list):
+			item = item + " " + command_list[command_length]
+			command_length += 1
+		while a < len(player_inventory) and found == False:
+			b = 0
+			while b < len(item_dict[player_inventory[a]].keywords) and found == False:
+				if item == item_dict[player_inventory[a]].keywords[b]:
+					found = True
+					if room == 'light_altar':
+						if item_dict[player_inventory[a]].dict['value'] > 0:
+							item_dict['light_item'].dict['light'] += item_dict[player_inventory[a]].dict['value'] // 2
+							player_inventory.remove(player_inventory[a])
+							print ('It disappears in a flash of light!')
+							print ('You feel the light of hope grow brighter.')
+							return 0
+						else:
+							print ('The gods laugh at your meager offering.')
+							return 0
+					elif room == 'score_altar':
+						if item_dict[player_inventory[a]].dict['value'] > 0:
+							print ('It disappears in a flash of light!')
+							print ('You feel the gods appreciate your gift.')
+							return item_dict[player_inventory[a]].dict['value']
+							player_inventory.remove(player_inventory[a])
+						else:
+							print ('The gods laugh at your meager offering.')
+							return 0
+					else:
+						print ('You cannot do that here.')
+						return 0
+				b += 1
+			a += 1			
+	if found == False:
+		print ('You don\'t have it!')
+		return 0
+
 def use_item(user_command, room):
 	command_list = user_command.split()
 	found = False
@@ -420,32 +473,35 @@ def main():
 	current_room = 'initial_room'
 	user_command = 0
 	game_over = False
+	score = 0
 	input ('Welcome to Peter\'s silly game! Please use north, south, east, west, up, down to move around. Other commands will become avaliable later! (Press Enter to continue)')
 	display_room(current_room)
 	display_items(current_room)
-	display_exits(current_room)
+	#display_exits(current_room)
 	while game_over == False:
 		user_command = input (':')
 		action = parse_input(user_command.rstrip('\r\n'))
 		if action == 'quiting':
 			game_over = True
 		elif action == 'movement':
-			direction = movement_normalization(user_command)
+			direction = movement_normalization(user_command.rstrip('\r\n'))
 			current_room = move(current_room, direction)
 			game_over = manage_light(current_room)
 		elif action == 'get item':
-			get_item(current_room, user_command)
+			get_item(current_room, user_command.rstrip('\r\n'))
 		elif action == 'drop item':
-			drop_item(current_room, user_command)
+			drop_item(current_room, user_command.rstrip('\r\n'))
 		elif action == 'inventory':
 			inventory()
 		elif action == 'look':
-			look(current_room, user_command)
+			look(current_room, user_command.rstrip('\r\n'))
 		elif action == 'usage':
 			use_item(user_command, current_room)
+		elif action == 'sacrifice':
+			score += sacrifice(current_room, user_command.rstrip('\r\n'))
 		else:
 			print ('That was not a recognized command, please try again')
 
-	print ('Goodbye, thanks for playing!')
+	print ('You achieved a score of ' + str(score) + '. Thank you for playing.')
 
 main()

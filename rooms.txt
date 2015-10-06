@@ -9,7 +9,7 @@ Exit:south:valley_s:unblocked
 Name:valley_n:Dead End
 Description:You've come to a dead end in the obsidian valley, huge jagged obsidian shards block your progress north. There's a small ledge on the eastern wall that you might be able to climb up to, or you can head back south.
 Dark:0
-Exit:up:obsidian_ledge:blocked:grappling_hook:usage:The path upwards isn't as easy
+Exit:up:obsidian_ledge:blocked:grappling_hook:usage:The path upwards isn't as easy 
 to climb as you had thought. Maybe if you had something to help you climb up.:The 
 grappling hook catches onto the ledge above allowing you to climb up.
 Exit:south:initial_room:unblocked
@@ -18,7 +18,7 @@ Name:valley_s:Obsidian Valley
 Description:The sun burns down upon you unrelentingly. This valley seems to be endless. It continues to the south and north. There is also a strange hole in the western wall.
 Dark:0
 Exit:north:initial_room:unblocked
-Exit:south:obsidian_spire:unblocked
+Exit:south:light_altar:unblocked
 Exit:west:obsidian_hole:unblocked
 
 Name:obsidian_hole:A hole in the valley wall
@@ -26,7 +26,7 @@ Description:The sun doesn't stretch into this dark hole, only the light you've b
 Dark:1
 Exit:east:valley_s:unblocked
 
-Name:obsidian_spire:A strange obsidian spire
+Name:light_altar:A strange obsidian spire
 Description:The obisidian walls stretch hundreds of feet above you, though the spire before you is at least twice as tall. Someone has carved at the base of the spire 'sacrifice here and you shall gain some hope'. You can travel north or south.
 Dark:0
 Exit:north:valley_s:unblocked
@@ -35,15 +35,15 @@ Exit:south:valley_south_end:blocked:heavy_boots:possesses:The obsidian ground is
 Name:valley_south_end:A dead end
 Description:Large obsidian boulders from some massive earthquake block passage south. The skeletal remains of some poor traveler who either fell trying to get into the valley or was caught up in the earthquake lie shattered upon the valley floor. The only exit is back north.
 Dark:0
-Exit:north:obsidian_spire:blocked:heavy_boots:possesses:The obsidian ground is far too hot to pass safely.:The heavy boots protect your feet as you travel along the valley floor.
+Exit:north:light_altar:blocked:heavy_boots:possesses:The obsidian ground is far too hot to pass safely.:The heavy boots protect your feet as you travel along the valley floor.
 
 Name:obsidian_ledge:Upon a ledge in the valley
 Description:You find yourself upon a ledge high above the valley floor. This high up you can see veins of ruby within the obsidian surfaces. You can either climb back down or enter a small cave in the obsidian walls.
 Dark:0
 Exit:down:valley_n:unblocked
-Exit:east:valley_cave:unblocked
+Exit:east:score_altar:unblocked
 
-Name:valley_cave:A grand temple
+Name:score_altar:A grand temple
 Description:The inside of this cave is far grander than the outside would have it appear. An extravegently carved altar is the centerpiece of the room with detailed frescos adorning the walls. Your light illuminates one section of the wall where you see someone has carved the words 'sacrifice pleases the dark lord and elevates us in his eyes'. You can leave the cave to the west, or there appears to be some sort of dark portal on the eastern wall.
 Dark:1
 Exit:west:obsidian_ledge:unblocked

@@ -4,7 +4,7 @@ Description1:This glowing crystal orb burns with the inner fire of your hope.
 Description2:A glowing crystal orb lies here abandoned.
 Value:0
 Light:10
-Location:obsidian_spire
+Location:light_altar
 
 Name:grappling_hook:a grappling hook
 Keyword:grappling hook:rope:hook
