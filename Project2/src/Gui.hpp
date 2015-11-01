@@ -2,7 +2,7 @@ class Gui
 {
 	public :
 		int yOffset;
-		Gui();
+		Gui(int yOffset);
 		~Gui();
 		void render();
 		void message(const TCODColor &col, const char *text, ...);

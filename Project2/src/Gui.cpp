@@ -1,3 +1,5 @@
+#include <stdarg.h>
+#include <stdio.h>
 #include "main.hpp"
 
 static const int PANEL_HEIGHT=7;
@@ -19,18 +21,63 @@ void Gui::render()
 	con->setDefaultBackground(TCODColor::black);
 	con->clear;
 
-	//blit the GUI console on the root console
-	TCODConsole::blit(con,0,0,engine.screenWidth,PANEL_HEIGHT,TCODConsole::root,0,engine.screenHeight-PANELHEIGHT-yOffset)
-
 	//draw the message log
 	int y=1;
+	float colorCoef=0.4f;
 	for (Message **i=log.begin(); i!=log.end(); i++)
 	{
 		Message *message=*i;
-		con->
+		con->setDefaultForeground(message->col * colorCoef);
+		con->print(0,y,message->text);
+		y++;
+		if (colorCoef < 1.0f)
+		{
+			colorCoef+=0.3f;
+
+	//blit the GUI console on the root console
+	TCODConsole::blit(con,0,0,engine.screenWidth,PANEL_HEIGHT,TCODConsole::root,0,engine.screenHeight-PANEL_HEIGHT-yOffset);
+		}
 	}
 }
 
+Gui::Message::Message(const char *text, const TCODColor &col) : text(strdup(text)), col(col)
+{
+}
 
+Gui::Message::~Message()
+{
+	free(text);
+}
 
-
+void Gui::message(const TCODColor &col, const char *text, ...)
+{
+	//build the text
+	va_list ap;
+	char buf[128];
+	va_start(ap,text);
+	vsprintf(buf,text,ap);
+	va_end(ap);
+	char *lineBegin=buf;
+	char *lineEnd;
+	do
+	{
+		//make room for the new message
+		if (log.size() == MSG_HEIGHT)
+		{
+			Message *toRemove=log.get(0);
+			log.remove(toRemove);
+			delete toRemove;
+		}
+		//detect end of the line
+		lineEnd=strchr(lineBegin,'\n');
+		if (lineEnd)
+		{
+			*lineEnd='\0';
+		}
+		//add a new message to the log
+		Message *msg=new Message(lineBegin, col);
+		log.push(msg);
+		//go to next line
+		lineBegin=lineEnd+1;
+	} while (lineEnd);
+}

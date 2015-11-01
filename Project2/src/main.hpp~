@@ -8,4 +8,4 @@ class Actor;
 #include "Engine.hpp"
 #include "Gui.hpp"
 
-static const int MAP_OFFSET = 5;
+static const int MAP_OFFSET = 7;

@@ -17,6 +17,7 @@ void Attacker::attack(Actor *owner, Actor *target)
 		{
 			printf("%s attacks %s but it has no effect!\n", owner->name, target->name);
 		}
+		target->destructible->takeDamage(target,power);
 	}
 	else
 	{

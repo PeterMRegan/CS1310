@@ -45,7 +45,7 @@ PlayerDestructible::PlayerDestructible(float maxHp, float defense, const char *c
 {
 }
 
-void MonsterDestrucible::die(Actor *owner)
+void MonsterDestructible::die(Actor *owner)
 {
 	//transform it into a nasty corpse! it doesn't block, can't be attacked and doesn't move
 	printf("%s is dead\n",owner->name);

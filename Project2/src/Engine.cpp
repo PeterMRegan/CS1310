@@ -11,6 +11,7 @@ Engine::Engine(int screenWidth, int screenHeight):gameStatus(STARTUP),fovRadius(
 	map = new Map(80,45);
 	topGui = new Gui(45);
 	botGui = new Gui(0);
+	topGui->message(TCODColor::red, "Welcome stranger!\nPrepare to perish in the Tombs of the Ancient Kings.");
 }
 
 Engine::~Engine()
