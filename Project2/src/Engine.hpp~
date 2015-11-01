@@ -13,8 +13,12 @@ class Engine
 		TCODList<Actor *> actors;
 		Actor *player;
 		Map *map;
+		int screenWidth;
+		int screenHeight;
+		Gui *gui;
+		TCOD_key_t lastKey;
 
-		Engine();
+		Engine(int screenWidth, int screenHeight);
 		~Engine();
 		void sendToBack(Actor *actor);
 		void update();

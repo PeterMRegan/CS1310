@@ -9,12 +9,16 @@ Engine::Engine(int screenWidth, int screenHeight):gameStatus(STARTUP),fovRadius(
 	player->ai = new PlayerAi();
 	actors.push(player);
 	map = new Map(80,45);
+	topGui = new Gui(45);
+	botGui = new Gui(0);
 }
 
 Engine::~Engine()
 {
 	actors.clearAndDelete();
 	delete map;
+	delete topGui;
+	delete botGui;
 }
 
 void Engine::update()
@@ -56,7 +60,6 @@ void Engine::render()
 			actor->render();
 		}
 	}
-	player->render();
-	//show the player's stats
-	TCODConsole::root->print(1,screenHeight-5, "HP:%d/%d",(int)player->destructible->hp,(int)player->destructible->maxHp);
+	topGui->render();
+	botGui->render();
 }

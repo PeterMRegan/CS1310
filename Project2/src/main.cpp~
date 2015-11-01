@@ -1,7 +1,7 @@
 #include <unistd.h>
 #include "main.hpp"
 
-Engine engine(80,50);
+Engine engine(80,55);
 
 int main()
 {

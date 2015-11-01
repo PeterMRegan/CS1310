@@ -1,7 +1,3 @@
-class Attacker;
-class Destructible;
-class Ai;
-
 class Actor
 {
 	public :

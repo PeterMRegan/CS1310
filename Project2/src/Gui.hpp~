@@ -1,0 +1,11 @@
+class Gui
+{
+	public :
+		int yOffset;
+		Gui();
+		~Gui();
+		void render();
+
+	protected :
+		TCODConsole *con;
+};

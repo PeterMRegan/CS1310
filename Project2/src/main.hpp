@@ -6,3 +6,6 @@ class Actor;
 #include "Actor.hpp"
 #include "Map.hpp"
 #include "Engine.hpp"
+#include "Gui.hpp"
+
+static const int MAP_OFFSET = 7;
