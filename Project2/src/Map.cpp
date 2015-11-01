@@ -183,11 +183,11 @@ void Map::render() const
 		{
 			if (isInFov(x,y))
 			{
-				TCODConsole::root->setCharBackground(x,y,isWall(x,y)?lightWall:lightGround);
+				TCODConsole::root->setCharBackground(x,y+5,isWall(x,y)?lightWall:lightGround);
 			}
 			else if ( isExplored(x,y))
 			{
-				TCODConsole::root->setCharBackground(x,y,isWall(x,y)?darkWall:darkGround);
+				TCODConsole::root->setCharBackground(x,y+5,isWall(x,y)?darkWall:darkGround);
 			}
 		}
 	}

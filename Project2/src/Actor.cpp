@@ -6,8 +6,8 @@ Actor::Actor(int x, int y, int ch, const char *name, const TCODColor &col) : x(x
 
 void Actor::render() const
 {
-	TCODConsole::root->setChar(x,y,ch);
-	TCODConsole::root->setCharForeground(x,y,col);
+	TCODConsole::root->setChar(x,y+5,ch);
+	TCODConsole::root->setCharForeground(x,y+5,col);
 }
 
 void Actor::update()

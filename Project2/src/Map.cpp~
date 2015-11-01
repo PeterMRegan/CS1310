@@ -113,7 +113,7 @@ void Map::addMonster(int x, int y)
 		troll->destructible = new MonsterDestructible(16,1,"troll carcass");
 		troll->attacker = new Attacker(4);
 		troll->ai = new MonsterAi();
-		engine.actors.push(troll{;
+		engine.actors.push(troll);
 	}
 }
 
