@@ -24,7 +24,7 @@ bool PlayerAi::moveOrAttack(Actor *owner, int targetx, int targety)
 		Actor *actor=*i;
 		if (actor->destructible && actor->destructible->isDead() && actor->x == targetx && actor->y == targety)
 		{
-			engine.topGui->message(TCODColor::lightGrepy,"There's a %s here\n",actor->name);
+			engine.topGui->message(TCODColor::lightGrey,"There's a %s here",actor->name);
 		}
 	}
 	owner->x=targetx;

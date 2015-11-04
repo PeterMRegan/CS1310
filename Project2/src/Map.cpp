@@ -187,7 +187,7 @@ void Map::render() const
 			}
 			else if ( isExplored(x,y))
 			{
-				TCODConsole::root->setCharBackground(x,y+5,isWall(x,y)?darkWall:darkGround);
+				TCODConsole::root->setCharBackground(x,y+MAP_OFFSET,isWall(x,y)?darkWall:darkGround);
 			}
 		}
 	}

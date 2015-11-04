@@ -9,7 +9,7 @@ Engine::Engine(int screenWidth, int screenHeight):gameStatus(STARTUP),fovRadius(
 	player->ai = new PlayerAi();
 	actors.push(player);
 	map = new Map(80,45);
-	topGui = new Gui(45);
+	topGui = new Gui(53);
 	botGui = new Gui(0);
 	topGui->message(TCODColor::red, "Welcome stranger!\nPrepare to perish in the Tombs of the Ancient Kings.");
 }
@@ -61,6 +61,6 @@ void Engine::render()
 			actor->render();
 		}
 	}
-	topGui->render();
-	botGui->render();
+	topGui->renderLog();
+	botGui->renderStatus();
 }

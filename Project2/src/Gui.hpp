@@ -4,7 +4,8 @@ class Gui
 		int yOffset;
 		Gui(int yOffset);
 		~Gui();
-		void render();
+		void renderLog();
+		void renderStatus();
 		void message(const TCODColor &col, const char *text, ...);
 
 	protected :

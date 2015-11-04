@@ -7,6 +7,7 @@ static const int MSG_HEIGHT=PANEL_HEIGHT-1;
 
 Gui::Gui(int yOffset):yOffset(yOffset)
 {
+	con = new TCODConsole(engine.screenWidth,PANEL_HEIGHT);
 }
 
 Gui::~Gui()
@@ -15,11 +16,11 @@ Gui::~Gui()
 	log.clearAndDelete();
 }
 
-void Gui::render()
+void Gui::renderLog()
 {
 	//clear the GUI console
 	con->setDefaultBackground(TCODColor::black);
-	con->clear;
+	con->clear();
 
 	//draw the message log
 	int y=1;
@@ -33,11 +34,24 @@ void Gui::render()
 		if (colorCoef < 1.0f)
 		{
 			colorCoef+=0.3f;
+		}
+	//blit the GUI console on the root console
+	TCODConsole::blit(con,0,0,engine.screenWidth,PANEL_HEIGHT,TCODConsole::root,0,engine.screenHeight-PANEL_HEIGHT-yOffset);
+	}
+}
+
+void Gui::renderStatus()
+{
+	//clear the GUI console
+	con->setDefaultBackground(TCODColor::black);
+	con->clear();
+
+	//draw the player's attributes
+	con->setDefaultForeground(TCODColor::lightGrey);
+	con->print(0,0,"HP:%d/%d",(int)engine.player->destructible->hp,(int)engine.player->destructible->maxHp);
 
 	//blit the GUI console on the root console
 	TCODConsole::blit(con,0,0,engine.screenWidth,PANEL_HEIGHT,TCODConsole::root,0,engine.screenHeight-PANEL_HEIGHT-yOffset);
-		}
-	}
 }
 
 Gui::Message::Message(const char *text, const TCODColor &col) : text(strdup(text)), col(col)
