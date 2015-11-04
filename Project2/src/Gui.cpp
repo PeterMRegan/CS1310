@@ -1,5 +1,6 @@
 #include <stdarg.h>
 #include <stdio.h>
+#include <string>
 #include "main.hpp"
 
 static const int PANEL_HEIGHT=7;
@@ -46,9 +47,14 @@ void Gui::renderStatus()
 	con->setDefaultBackground(TCODColor::black);
 	con->clear();
 
-	//draw the player's attributes
+	//draw the players name
+	const char *name = engine.player->name;
 	con->setDefaultForeground(TCODColor::lightGrey);
-	con->print(0,0,"HP:%d/%d",(int)engine.player->destructible->hp,(int)engine.player->destructible->maxHp);
+	con->print(0,0,"Name:%s",name);
+
+	//draw the players hp
+	con->setDefaultForeground(TCODColor::red);
+	con->print(0,2,"HP:%d/%d",(int)engine.player->destructible->hp,(int)engine.player->destructible->maxHp);
 
 	//blit the GUI console on the root console
 	TCODConsole::blit(con,0,0,engine.screenWidth,PANEL_HEIGHT,TCODConsole::root,0,engine.screenHeight-PANEL_HEIGHT-yOffset);
