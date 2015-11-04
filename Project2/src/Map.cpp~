@@ -120,10 +120,24 @@ void Map::addMonster(int x, int y)
 
 void Map::addItem(int x, int y)
 {
-	Actor *healthPotion=new Actor(x,y,'!',"health potion",TCODColor::violet);
-	healthPotion->blocks=false;
-	healthPotion->pickable=new Healer(4);
-	engine.actors.push(healthPotion);
+	if (rng->getInt(0,100) < 80)
+	{
+		//create a potion of cure minor wounds
+		Actor *cureLightPotion=new Actor(x,y,'!',"potion of cure minor wounds",TCODColor::violet);
+		cureLightPotion->blocks=false;
+		cureLightPotion->pickable=new Healer(4);
+		engine.actors.push(cureLightPotion);
+		engine.sendToBack(cureLightPotion);
+	}
+	else
+	{
+		//create a potion of cure serious wounds
+		Actor *cureSeriousPotion=new Actor(x,y,'!',"potion of cure serious wounds",TCODColor::blue);
+		cureSeriousPotion->blocks=false;
+		cureSeriousPotion->pickable=new Healer(12);
+		engine.actors.push(cureSeriousPotion);
+		engine.sendToBack(cureSeriousPotion);
+	}
 }
 
 void Map::computeFov()

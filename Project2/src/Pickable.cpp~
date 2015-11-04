@@ -21,7 +21,7 @@ bool Pickable::use(Actor *owner, Actor *wearer)
 	return false;
 }
 
-Healer:Healer(float amount) : amount(amount)
+Healer::Healer(float amount) : amount(amount)
 {
 }
 
