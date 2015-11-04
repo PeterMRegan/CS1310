@@ -48,9 +48,9 @@ void Gui::renderStatus()
 	con->clear();
 
 	//draw the players name
-	const char *name = engine.player->name;
+	//const char *name = engine.player->name;
 	con->setDefaultForeground(TCODColor::lightGrey);
-	con->print(0,0,"Name:%s",name);
+	con->print(0,0,"Name:%s",engine.player->name);
 
 	//draw the players hp
 	con->setDefaultForeground(TCODColor::red);

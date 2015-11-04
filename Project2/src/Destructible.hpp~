@@ -4,7 +4,7 @@ class Destructible
 		float maxHp; //maximum health points
 		float hp; //current health points
 		float defense; //hit points deflected
-		const char *corspeName; //the actor's name once dead/destroyed
+		const char *corpseName; //the actor's name once dead/destroyed
 
 		Destructible(float maxHp, float defense, const char *corpseName);
 		inline bool isDead() {return hp <= 0;}

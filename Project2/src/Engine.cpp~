@@ -61,6 +61,6 @@ void Engine::render()
 			actor->render();
 		}
 	}
-	topGui->render();
-	botGui->message("HP:"+player->destructible->maxHp+'/'+player->destructible->hp);
+	topGui->renderLog();
+	botGui->renderStatus();
 }

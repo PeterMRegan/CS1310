@@ -9,6 +9,7 @@ class Destructible
 		Destructible(float maxHp, float defense, const char *corpseName);
 		inline bool isDead() {return hp <= 0;}
 		float takeDamage(Actor *owner, float damage);
+		float heal(float amount);
 		virtual void die(Actor *owner);
 };
 
