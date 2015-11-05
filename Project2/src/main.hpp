@@ -6,6 +6,7 @@ class Actor;
 #include "Ai.hpp"
 #include "Pickable.hpp"
 #include "Potion.hpp"
+#include "Scroll.hpp"
 #include "Container.hpp"
 #include "Actor.hpp"
 #include "Map.hpp"

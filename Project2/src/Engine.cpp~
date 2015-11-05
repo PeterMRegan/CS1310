@@ -7,6 +7,7 @@ Engine::Engine(int screenWidth, int screenHeight):gameStatus(STARTUP),fovRadius(
 	player->destructible=new PlayerDestructible(30,2,"your cadaver");
 	player->attacker=new Attacker(5);
 	player->ai = new PlayerAi();
+	player->container = new Container(26);
 	actors.push(player);
 	map = new Map(80,45);
 	topGui = new Gui(53);
@@ -63,4 +64,24 @@ void Engine::render()
 	}
 	topGui->renderLog();
 	botGui->renderStatus();
+}
+
+Actor Engine::getClosestMonster(int x, int y, float range) const
+{
+	Actor *closest=NULL;
+	float bestDistance=1E6f;
+	for (Actor **i=actors.begin(); i!=actors.end(); i++)
+	{
+		Actor *actor=*i;
+		if (actor != player && actor->destructible && !actor->destructible->isDead())
+		{
+			float distance=actor->getDistance(x,y);
+			if (distance < bestDistance && (distance <= range || range == 0.0f))
+			{
+				bestDistance=distance;
+				closest=actor;
+			}
+		}
+	}
+	return closest;
 }

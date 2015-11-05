@@ -25,6 +25,7 @@ class Engine
 		void sendToBack(Actor *actor);
 		void update();
 		void render();
+		Actor *getClosestMonster(int x, int y, float range) const;
 
 	private :
 		bool computeFov;

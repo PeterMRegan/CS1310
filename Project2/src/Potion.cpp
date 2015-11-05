@@ -11,7 +11,8 @@ bool Healer::use(Actor *owner, Actor *wearer)
 		float amountHealed = wearer->destructible->heal(amount);
 		if (amountHealed > 0)
 		{
-		return Pickable::use(owner,wearer);
+			engine.topGui->message(TCODColor::green, "You feel better!");
+			return Pickable::use(owner,wearer);
 		}
 	}
 	return false;

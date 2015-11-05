@@ -123,7 +123,8 @@ void Map::addMonster(int x, int y)
 void Map::addItem(int x, int y)
 {
 	TCODRandom *rng=TCODRandom::getInstance();
-	if (rng->getInt(0,100) < 80)
+	int dice = rng->getInt(0,100);
+	if (dice < 50)
 	{
 		//create a potion of cure minor wounds
 		Actor *cureLightPotion=new Actor(x,y,'!',"potion of cure minor wounds",TCODColor::violet);
@@ -132,7 +133,7 @@ void Map::addItem(int x, int y)
 		engine.actors.push(cureLightPotion);
 		engine.sendToBack(cureLightPotion);
 	}
-	else
+	else if (dice < 70)
 	{
 		//create a potion of cure serious wounds
 		Actor *cureSeriousPotion=new Actor(x,y,'!',"potion of cure serious wounds",TCODColor::blue);
@@ -140,6 +141,15 @@ void Map::addItem(int x, int y)
 		cureSeriousPotion->pickable=new Healer(12);
 		engine.actors.push(cureSeriousPotion);
 		engine.sendToBack(cureSeriousPotion);
+	}
+	else if (dice <= 100)
+	{
+		//create a scroll of lightning bolt
+		Actor *scrollOfLightningBolt=new Actor(x,y,'#',"scroll of lightning bolt", TCODColor::lightYellow);
+		scrollOfLightningBolt->blocks=false;
+		scrollOfLightningBolt->pickable=new LightningBolt(5,20);
+		engine.actors.push(scrollOfLightningBolt);
+		engine.sendToBack(scrollOfLightningBolt);
 	}
 }
 
