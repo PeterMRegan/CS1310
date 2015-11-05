@@ -56,6 +56,10 @@ void Gui::renderStatus()
 	con->setDefaultForeground(TCODColor::red);
 	con->print(0,2,"HP:%d/%d",(int)engine.player->destructible->hp,(int)engine.player->destructible->maxHp);
 
+	//draw the number of monsters remaining
+	con->setDefaultForeground(TCODColor::darkSea);
+	con->print(0,4,"Monsters remaining:%d",(int)engine.monsters.size());
+
 	//blit the GUI console on the root console
 	TCODConsole::blit(con,0,0,engine.screenWidth,PANEL_HEIGHT,TCODConsole::root,0,engine.screenHeight-PANEL_HEIGHT-yOffset);
 }

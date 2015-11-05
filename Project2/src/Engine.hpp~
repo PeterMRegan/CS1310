@@ -15,7 +15,8 @@ class Engine
 		Map *map;
 		int screenWidth;
 		int screenHeight;
-		Gui *gui;
+		Gui *topGui;
+		Gui *botGui;
 		TCOD_key_t lastKey;
 
 		Engine(int screenWidth, int screenHeight);

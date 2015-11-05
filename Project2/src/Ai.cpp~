@@ -90,6 +90,7 @@ void PlayerAi::handleActionKey(Actor *owner, int ascii)
 				engine.topGui->message(TCODColor::lightGrey,"There's nothing here that you can pick.");
 			}
 		}
+		break;
 		case 'i' : //display inventory
 		{
 			Actor *actor=choseFromInventory(owner);

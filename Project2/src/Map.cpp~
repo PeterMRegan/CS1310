@@ -120,6 +120,7 @@ void Map::addMonster(int x, int y)
 
 void Map::addItem(int x, int y)
 {
+	TCODRandom *rng=TCODRandom::getInstance();
 	if (rng->getInt(0,100) < 80)
 	{
 		//create a potion of cure minor wounds

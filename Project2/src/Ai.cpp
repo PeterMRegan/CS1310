@@ -136,8 +136,8 @@ Actor *PlayerAi::choseFromInventory(Actor *owner)
 		{
 			return owner->container->inventory.get(actorIndex);
 		}
-		return NULL;
 	}
+	return NULL;
 }
 
 void MonsterAi::update(Actor *owner)

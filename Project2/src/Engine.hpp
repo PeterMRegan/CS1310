@@ -11,6 +11,7 @@ class Engine
 		} gameStatus;
 		int fovRadius;
 		TCODList<Actor *> actors;
+		TCODList<Actor *> monsters;
 		Actor *player;
 		Map *map;
 		int screenWidth;

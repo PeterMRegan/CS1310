@@ -106,6 +106,7 @@ void Map::addMonster(int x, int y)
 		orc->attacker = new Attacker(3);
 		orc->ai = new MonsterAi();
 		engine.actors.push(orc);
+		engine.monsters.push(orc);
 	}
 	else
 	{
@@ -115,6 +116,7 @@ void Map::addMonster(int x, int y)
 		troll->attacker = new Attacker(4);
 		troll->ai = new MonsterAi();
 		engine.actors.push(troll);
+		engine.monsters.push(troll);
 	}
 }
 
