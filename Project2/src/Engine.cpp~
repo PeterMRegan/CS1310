@@ -1,3 +1,4 @@
+#include <iostream>
 #include "main.hpp"
 
 Engine::Engine(int screenWidth, int screenHeight):gameStatus(STARTUP),fovRadius(10),screenWidth(screenWidth),screenHeight(screenHeight)
@@ -117,13 +118,13 @@ void Engine::save()
 		}
 		// finally the message log
 		topGui->save(zip);
-		botGui->save(zip);
 		zip.saveToFile("game.sav");
 	}
 }
 
 void Engine::load()
 {
+	std::cout << "test" << endl;
 	if (TCODSystem::fileExists("game.sav"))
 	{
 		TCODZip zip;
@@ -148,7 +149,6 @@ void Engine::load()
 		}
 		//finally the message log
 		topGui->load(zip);
-		botGui->load(zip);
 	}
 	else
 	{
