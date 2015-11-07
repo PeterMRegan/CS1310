@@ -17,3 +17,14 @@ bool Healer::use(Actor *owner, Actor *wearer)
 	}
 	return false;
 }
+
+void Healer::load(TCODZip &zip)
+{
+	amount=zip.getFloat();
+}
+
+void Healer::save(TCODZip &zip)
+{
+	zip.putInt(HEALER);
+	zip.putFloat(amount);
+}

@@ -21,6 +21,6 @@ void Attacker::attack(Actor *owner, Actor *target)
 	}
 	else
 	{
-		engine.topGui->message(TCODColor::lightGrey, "%s attacks %s in vain.\n", owner->name, target->name);
+		engine.topGui->message(TCODColor::lightGrey, "%s attacks %s in vain.", owner->name, target->name);
 	}
 }

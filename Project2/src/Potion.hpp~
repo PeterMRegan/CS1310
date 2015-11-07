@@ -1,5 +1,3 @@
-class Pickable;
-
 class Healer : public Pickable
 {
 	public :

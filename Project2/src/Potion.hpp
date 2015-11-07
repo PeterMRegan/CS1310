@@ -1,5 +1,3 @@
-class Pickable;
-
 class Healer : public Pickable
 {
 	public :
@@ -7,4 +5,6 @@ class Healer : public Pickable
 
 		Healer (float amount);
 		bool use(Actor *owner, Actor *wearer);
+		void load(TCODZip &zip);
+		void save(TCODZip &zip);
 };

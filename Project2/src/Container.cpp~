@@ -22,5 +22,5 @@ bool Container::add(Actor *actor)
 
 void Container::remove(Actor *actor)
 {
-	inventory.remove(Actor);
+	inventory.remove(actor);
 }

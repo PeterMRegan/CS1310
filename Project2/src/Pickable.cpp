@@ -33,3 +33,16 @@ void Pickable::drop(Actor *owner, Actor *wearer)
 		engine.topGui->message(TCODColor::lightGrey,"%s drops a %s.",wearer->name,owner->name);
 	}
 }
+
+Pickable *Pickable::create(TCODZip &zip)
+{
+	PickableType type=(PickableType)zip.getInt();
+	Pickable *pickable=NULL;
+	switch(type)
+	{
+		case HEALER : pickable=new Healer(0); break;
+		case LIGHTNING_BOLT : pickable=new LightningBolt(0,0); break;
+	}
+	pickable->load(zip);
+	return pickable;
+}

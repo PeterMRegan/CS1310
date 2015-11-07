@@ -3,16 +3,8 @@
 Engine::Engine(int screenWidth, int screenHeight):gameStatus(STARTUP),fovRadius(10),screenWidth(screenWidth),screenHeight(screenHeight)
 {
 	TCODConsole::initRoot(screenWidth,screenHeight,"libtcod C++ tutorial",false);
-	player = new Actor(40,25,'@',"player",TCODColor::white);
-	player->destructible=new PlayerDestructible(30,2,"your cadaver");
-	player->attacker=new Attacker(5);
-	player->ai = new PlayerAi();
-	player->container = new Container(26);
-	actors.push(player);
-	map = new Map(80,45);
 	topGui = new Gui(53);
 	botGui = new Gui(0);
-	topGui->message(TCODColor::red, "Welcome stranger!\nPrepare to perish in the Tombs of the Ancient Kings.");
 }
 
 Engine::~Engine()
@@ -84,4 +76,80 @@ Actor *Engine::getClosestMonster(int x, int y, float range) const
 		}
 	}
 	return closest;
+}
+
+void Engine::init()
+{
+	player = new Actor(40,25,'@',"player",TCODColor::white);
+	player->destructible=new PlayerDestructible(30,2,"your cadaver");
+	player->attacker=new Attacker(5);
+	player->ai = new PlayerAi();
+	player->container = new Container(26);
+	actors.push(player);
+	map = new Map(80,43);
+	map -> init(true);
+	topGui->message(TCODColor::red,"Welcome stranger\nPrepare to perish in the Tombs of the Ancient Kings.");
+}
+
+void Engine::save()
+{
+	if (player->destructible->isDead())
+	{
+		TCODSystem::deleteFile("game.save");
+	}
+	else
+	{
+		TCODZip zip;
+		//save the map first
+		zip.putInt(map->width);
+		zip.putInt(map->height);
+		map->save(zip);
+		//then the player
+		player->save(zip);
+		//then all the other actors
+		zip.putInt(actors.size()-1);
+		for (Actor **i=actors.begin(); i!=actors.end(); i++)
+		{
+			if (*i!=player)
+			{
+				(*i)->save(zip);
+			}
+		}
+		// finally the message log
+		topGui->save(zip);
+		zip.saveToFile("game.sav");
+	}
+}
+
+void Engine::load()
+{
+	if (TCODSystem::fileExists("game.sav"))
+	{
+		TCODZip zip;
+		zip.loadFromFile("game.sav");
+		//load the map
+		int width=zip.getInt();
+		int height=zip.getInt();
+		map = new Map(width,height);
+		map->load(zip);
+		//then the player
+		player=new Actor(0,0,0,NULL,TCODColor::white);
+		player->load(zip);
+		actors.push(player);
+		//then all other actors
+		int nbActors=zip.getInt();
+		while (nbActors > 0)
+		{
+			Actor *actor = new Actor(0,0,0,NULL,TCODColor::white);
+			actor->load(zip);
+			actors.push(actor);
+			nbActors--;
+		}
+		//finally the message log
+		topGui->load(zip);
+	}
+	else
+	{
+		engine.init();
+	}
 }

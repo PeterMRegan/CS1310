@@ -1,7 +1,14 @@
-class Ai
+class Ai : public Persistent
 {
 	public :
 		virtual void update(Actor *owner)=0;
+		static Ai *create (TCODZip &zip);
+
+	protected :
+		enum AiType
+		{
+			MONSTER,PLAYER
+		};
 };
 
 class PlayerAi : public Ai
@@ -9,6 +16,8 @@ class PlayerAi : public Ai
 	public :
 		void update(Actor *owner);
 		void handleActionKey(Actor *owner, int ascii);
+		void load(TCODZip &zip);
+		void save(TCODZip &zip);
 
 	protected :
 		bool moveOrAttack(Actor *owner, int targetx, int targety);
@@ -19,6 +28,8 @@ class MonsterAi : public Ai
 {
 	public :
 		void update(Actor *owner);
+		void load(TCODZip &zip);
+		void save(TCODZip &zip);
 
 	protected :
 		int moveCount;

@@ -1,6 +1,6 @@
 class Actor
 {
-	public :
+	public : public Persistent
 		int x,y; //position on map
 		int ch; //ascii code
 		TCODColor col; //color
@@ -16,4 +16,7 @@ class Actor
 		~Actor();
 		void update();
 		void render() const;
+		float getDistance(int cx, int cy) const;
+		void load(TCODZip &zip);
+		void save(TCODZip &zip);
 };

@@ -105,3 +105,25 @@ void Gui::message(const TCODColor &col, const char *text, ...)
 		lineBegin=lineEnd+1;
 	} while (lineEnd);
 }
+
+void Gui::save(TCODZip &zip)
+{
+	zip.putInt(log.size());
+	for (Message **i=log.begin(); it != log.end(); i++)
+	{
+		zip.putString((*i)-text);
+		zip.putColor(&(*i)->col);
+	}
+}
+
+void Gui::load(TCODZip &zip)
+{
+	int nbMessages=zip.getInt();
+	while (nbMessages > 0)
+	{
+		const char *text=zip.getString();
+		TCODColor col=zip.getColor();
+		message(col,text);
+		nbMessages--;
+	}
+}

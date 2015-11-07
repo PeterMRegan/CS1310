@@ -4,6 +4,12 @@
 Destructible::Destructible(float maxHp, float defense, const char *corpseName) :
 	maxHp(maxHp),hp(maxHp),defense(defense),corpseName(corpseName)
 {
+	this->corpseName = strdup(corpseName);
+}
+
+Destructible::~Destructible()
+{
+	free(corpseName);
 }
 
 float Destructible::takeDamage(Actor *owner, float damage)
@@ -61,6 +67,7 @@ void MonsterDestructible::die(Actor *owner)
 	//transform it into a nasty corpse! it doesn't block, can't be attacked and doesn't move
 	engine.topGui->message(TCODColor::lightGrey, "%s is dead",owner->name);
 	Destructible::die(owner);
+	engine.monsters.remove(owner);
 }
 
 void PlayerDestructible::die(Actor *owner)
@@ -68,4 +75,20 @@ void PlayerDestructible::die(Actor *owner)
 	engine.topGui->message(TCODColor::red, "You died!");
 	Destructible::die(owner);
 	engine.gameStatus=Engine::DEFEAT;
+}
+
+void Destructible::load(TCODZip &zip)
+{
+	maxHp=zip.getFloat();
+	hp=zip.getFloat();
+	defense=zip.getFloat();
+	corpseName=strdup(zip.getString());
+}
+
+void Destructible::save(TCODZip &zip)
+{
+	zip.putFloat(maxHp);
+	zip.putFloat(hp);
+	zip.putFloat(defense);
+	zip.putString(corpseName);
 }

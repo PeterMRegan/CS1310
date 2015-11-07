@@ -4,8 +4,11 @@ class Gui
 		int yOffset;
 		Gui(int yOffset);
 		~Gui();
-		void render();
+		void renderLog();
+		void renderStatus();
 		void message(const TCODColor &col, const char *text, ...);
+		void load(TCODZip &zip);
+		void saze(TCODZip &zip);
 
 	protected :
 		TCODConsole *con;

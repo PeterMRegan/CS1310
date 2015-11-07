@@ -20,7 +20,6 @@ class BspListener : public ITCODBspCallback
 			{
 				int x,y,w,h;
 				//dig a room
-				TCODRandom *rng=TCODRandom::getInstance();
 				w=rng->getInt(ROOM_MIN_SIZE, node->w-2);
 				h=rng->getInt(ROOM_MIN_SIZE, node->h-2);
 				x=rng->getInt(node->x+1, node->x+node->w-w-1);
@@ -42,12 +41,7 @@ class BspListener : public ITCODBspCallback
 
 Map::Map(int width, int height) : width(width),height(height)
 {
-	tiles=new Tile[width*height];
-	map=new TCODMap(width,height);
-	TCODBsp bsp(0,0,width,height);
-	bsp.splitRecursive(NULL,8,ROOM_MAX_SIZE,ROOM_MAX_SIZE,1.5f,1.5f);
-	BspListener listener(*this);
-	bsp.traverseInvertedLevelOrder(&listener,NULL);
+	seed=TCODRandom::getInstance()->getInt(0,0x7FFFFFFF);
 }
 
 Map::~Map()
@@ -145,7 +139,7 @@ void Map::addItem(int x, int y)
 	else if (dice <= 100)
 	{
 		//create a scroll of lightning bolt
-		Actor *scrollOfLightningBolt=new Actor(x,y,'#',"scroll of lightning bolt", TCODColor::lightYellow);
+		Actor *scrollOfLightningBolt=new Actor(x,y,'?',"scroll of lightning bolt", TCODColor::lightYellow);
 		scrollOfLightningBolt->blocks=false;
 		scrollOfLightningBolt->pickable=new LightningBolt(5,20);
 		engine.actors.push(scrollOfLightningBolt);
@@ -181,9 +175,13 @@ void Map::dig(int x1, int y1, int x2, int y2)
 	}
 }
 
-void Map::createRoom(bool first, int x1, int y1, int x2, int y2)
+void Map::createRoom(bool first, int x1, int y1, int x2, int y2, bool withActors)
 {
 	dig (x1,y1,x2,y2);
+	if (!withActors)
+	{
+		return;
+	}
 	if (first)
 	{
 		//put the player in the first room
@@ -239,5 +237,35 @@ void Map::render() const
 				TCODConsole::root->setCharBackground(x,y+MAP_OFFSET,isWall(x,y)?darkWall:darkGround);
 			}
 		}
+	}
+}
+
+void Map::init(bool withActors);
+{
+	rng = new TCODRandom(seed, TCOD_RNG_CMWC);
+	tiles=new Tile[width*height];
+	map=new TCODMap(width,height);
+	TCODBsp bsp(0,0,width,height);
+	bsp.splitRecursive(rng,8,ROOM_MAX_SIE,1.5f,1.5f);
+	BspListener listener(*this);
+	bsp.traverseInvertedLevelOrder(&listener,(void *)withActors);
+}
+
+void Map::save(TCODZip &zip)
+{
+	zip.putInt(seed);
+	for (int i=0; i<width*height; i++)
+	{
+		zip.putInt(tiles[i].explored);
+	}
+}
+
+void Map::load(TCODZip &zip)
+{
+	seed = zip.getInt();
+	init(false);
+	for (int i=0;i<width*height;i++)
+	{
+		tiles[i].explored=zip.getInt();
 	}
 }

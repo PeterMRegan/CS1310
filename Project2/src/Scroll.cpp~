@@ -9,7 +9,7 @@ bool LightningBolt::use(Actor *owner, Actor *wearer)
 	Actor *closestMonster=engine.getClosestMonster(wearer->x,wearer->y,range);
 	if (!closestMonster)
 	{
-		engine.topGui->message(TCODColor::lightgrey,"No enemy is close enough to strike.");
+		engine.topGui->message(TCODColor::lightGrey,"No enemy is close enough to strike.");
 		return false;
 	}
 	//hit closest monster for <damage> hit points

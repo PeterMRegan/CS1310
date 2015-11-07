@@ -17,3 +17,16 @@ bool LightningBolt::use(Actor *owner, Actor *wearer)
 	closestMonster->destructible->takeDamage(closestMonster,damage);
 	return Pickable::use(owner,wearer);
 }
+
+void LightningBolt::load(TCODZip &zip)
+{
+	range=zip.getFloat();
+	damage=zip.getFloat();
+}
+
+void LightningBolt::save(TCODZip &zip)
+{
+	zip.putInt(LIGHTNING_BOLT);
+	zip.putFloat(range);
+	zip.putFloat(damage);
+}

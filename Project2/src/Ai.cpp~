@@ -103,7 +103,7 @@ void PlayerAi::handleActionKey(Actor *owner, int ascii)
 		break;
 		case 'd' : //drop item
 		{
-			Actor *actor=choseFroseInventory(owner);
+			Actor *actor=choseFromInventory(owner);
 			if (actor)
 			{
 				actor->pickable->drop(actor,owner);

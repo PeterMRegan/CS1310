@@ -201,3 +201,36 @@ void MonsterAi::moveOrAttack(Actor *owner, int targetx, int targety)
 		owner->attacker->attack(owner,engine.player);
 	}
 }
+
+void MonsterAi::load(TCODZip &zip)
+{
+	moveCount=zip.getInt();
+}
+
+void MonsterAi::save(TCODZip &zip)
+{
+	zip.putInt(MONSTER);
+	zip.putInt(moveCount);
+}
+
+void PlayerAi::load(TCODZip &zip)
+{
+}
+
+void PlayerAi::save(TCODZip &zip)
+{
+	zip.putInt(PLAYER);
+}
+
+Ai *Ai::create(TCODZip &zip)
+{
+	AiType type=(AiType)zip.getInt();
+	Ai *ai=NULL;
+	switch(type)
+	{
+		case PLAYER : ai = new PlayerAi(); break;
+		case MONSTER : ai = new MonsterAi(); break;
+	}
+	ai->load(zip);
+	return ai;
+}
