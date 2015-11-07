@@ -40,6 +40,11 @@ void Actor::save(TCODZip &zip)
 	zip.putColor(&col);
 	zip.putString(name);
 	zip.putInt(blocks);
+	zip.putInt(attacker!=NULL);
+	zip.putInt(destructible!=NULL);
+	zip.putInt(ai!=NULL);
+	zip.putInt(pickable!=NULL);
+	zip.putInt(container!=NULL);
 	if (attacker) attacker->save(zip);
 	if (destructible) destructible->save(zip);
 	if (ai) ai->save(zip);
