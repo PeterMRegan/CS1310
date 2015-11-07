@@ -109,9 +109,9 @@ void Gui::message(const TCODColor &col, const char *text, ...)
 void Gui::save(TCODZip &zip)
 {
 	zip.putInt(log.size());
-	for (Message **i=log.begin(); it != log.end(); i++)
+	for (Message **i=log.begin(); i != log.end(); i++)
 	{
-		zip.putString((*i)-text);
+		zip.putString((*i)->text);
 		zip.putColor(&(*i)->col);
 	}
 }

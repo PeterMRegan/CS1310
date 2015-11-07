@@ -27,11 +27,12 @@ class Engine
 		void render();
 		Actor *getClosestMonster(int x, int y, float range) const;
 
-	private :
-		bool computeFov;
 		void init();
 		void load();
 		void save();
+
+	private :
+		bool computeFov;
 };
 
 extern Engine engine;

@@ -2,7 +2,7 @@
 #include "main.hpp"
 
 Destructible::Destructible(float maxHp, float defense, const char *corpseName) :
-	maxHp(maxHp),hp(maxHp),defense(defense),corpseName(corpseName)
+	maxHp(maxHp),hp(maxHp),defense(defense)
 {
 	this->corpseName = strdup(corpseName);
 }

@@ -29,6 +29,9 @@ class Engine
 
 	private :
 		bool computeFov;
+		void init();
+		void load();
+		void save();
 };
 
 extern Engine engine;
