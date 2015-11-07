@@ -1,5 +1,6 @@
 #include "main.hpp"
 #include <math.h>
+#include <iostream>
 
 Actor::Actor(int x, int y, int ch, const char *name, const TCODColor &col) : x(x),y(y),ch(ch),col(col),name(name),blocks(true),attacker(NULL),destructible(NULL),ai(NULL),pickable(NULL),container(NULL)
 {
@@ -54,32 +55,48 @@ void Actor::save(TCODZip &zip)
 
 void Actor::load(TCODZip &zip)
 {
+	std::cout << "getting x" << std::endl;
 	x=zip.getInt();
+	std::cout << "getting y" << std::endl;
 	y=zip.getInt();
+	std::cout << "getting ch" << std::endl;
 	ch=zip.getInt();
+	std::cout << "getting col" << std::endl;
 	col=zip.getColor();
+	std::cout << "getting name" << std::endl;
 	name=strdup(zip.getString());
+	std::cout << "getting blocking info" << std::endl;
 	blocks=zip.getInt();
+	std::cout << "getting attacker" << std::endl;
 	bool hasAttacker=zip.getInt();
+	std::cout << "getting destructible" << std::endl;
 	bool hasDestructible=zip.getInt();
+	std::cout << "getting ai" << std::endl;
 	bool hasAi=zip.getInt();
+	std::cout << "getting pickable" << std::endl;
 	bool hasPickable=zip.getInt();
+	std::cout << "getting container" << std::endl;
 	bool hasContainer=zip.getInt();
 	if (hasAttacker)
 	{
+		std::cout << "setting attacker" << std::endl;
 		attacker = new Attacker(0.0f);
 		attacker->load(zip);
 	}
 	if (hasDestructible)
 	{
+		std::cout << "setting destructible" << std::endl;
 		destructible = Destructible::create(zip);
 	}
+	std::cout << "test" << std::endl;
 	if (hasAi)
 	{
+		std::cout << "setting ai" << std::endl;
 		ai = Ai::create(zip);
 	}
 	if (hasPickable)
 	{
+		std::cout << "setting pickable" << std::endl;
 		pickable = Pickable::create(zip);
 	}
 	if (hasContainer)
