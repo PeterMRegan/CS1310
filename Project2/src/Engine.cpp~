@@ -129,28 +129,25 @@ void Engine::load()
 		TCODZip zip;
 		zip.loadFromFile("game.sav");
 		//load the map
-		std::cout << "loading the map" << std::endl;
 		int width=zip.getInt();
 		int height=zip.getInt();
 		map = new Map(width,height);
 		map->load(zip);
 		//then the player
-		std::cout << "loading the player" << std::endl;
 		player=new Actor(0,0,0,NULL,TCODColor::white);
 		player->load(zip);
 		actors.push(player);
 		//then all other actors
-		std::cout << "loading the actors" << std::endl;
 		int nbActors=zip.getInt();
 		while (nbActors > 0)
 		{
 			Actor *actor = new Actor(0,0,0,NULL,TCODColor::white);
 			actor->load(zip);
 			actors.push(actor);
+			sendToBack(actor);
 			nbActors--;
 		}
 		//finally the message log
-		std::cout << "loading the message log" << std::endl;
 		topGui->load(zip);
 	}
 	else

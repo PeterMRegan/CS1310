@@ -96,7 +96,7 @@ void Engine::save()
 {
 	if (player->destructible->isDead())
 	{
-		TCODSystem::deleteFile("game.save");
+		TCODSystem::deleteFile("game.sav");
 	}
 	else
 	{
@@ -129,31 +129,25 @@ void Engine::load()
 		TCODZip zip;
 		zip.loadFromFile("game.sav");
 		//load the map
-		std::cout << "loading the map" << std::endl;
 		int width=zip.getInt();
 		int height=zip.getInt();
 		map = new Map(width,height);
 		map->load(zip);
 		//then the player
-		std::cout << "loading the player" << std::endl;
 		player=new Actor(0,0,0,NULL,TCODColor::white);
-		std::cout << "1" << std::endl;
 		player->load(zip);
-		std::cout << "2" << std::endl;
 		actors.push(player);
-		std::cout << "3" << std::endl;
 		//then all other actors
-		std::cout << "loading the actors" << std::endl;
 		int nbActors=zip.getInt();
 		while (nbActors > 0)
 		{
 			Actor *actor = new Actor(0,0,0,NULL,TCODColor::white);
 			actor->load(zip);
 			actors.push(actor);
+			sendToBack(actor);
 			nbActors--;
 		}
 		//finally the message log
-		std::cout << "loading the message log" << std::endl;
 		topGui->load(zip);
 	}
 	else

@@ -113,9 +113,10 @@ Destructible *Destructible::create(TCODZip &zip)
 	std::cout << type << std::endl;
 	switch(type)
 	{
-		case MONSTER : destructible=new MonsterDestructible(0,0,NULL); break;
-		case PLAYER : destructible = new PlayerDestructible(0,0,NULL); break;
+		case MONSTER : destructible=new MonsterDestructible(0,0,"test"); break;
+		case PLAYER : destructible = new PlayerDestructible(0,0,"test"); break;
 	}
+	std::cout << "test 1" << std::endl;
 	destructible->load(zip);
 	return destructible;
 }
