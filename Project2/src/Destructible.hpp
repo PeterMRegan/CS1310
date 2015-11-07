@@ -29,7 +29,6 @@ class MonsterDestructible : public Destructible
 		MonsterDestructible(float maxHp, float defense, const char *corpseName);
 		void die(Actor *owner);
 		void save(TCODZip &zip);
-		void load(TCODZip &zip);
 };
 
 class PlayerDestructible : public Destructible
@@ -38,5 +37,4 @@ class PlayerDestructible : public Destructible
 		PlayerDestructible(float maxHp, float defense, const char *corpseName);
 		void die(Actor *owner);
 		void save(TCODZip &zip);
-		void load(TCODZip &zip);
 };
