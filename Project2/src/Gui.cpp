@@ -1,7 +1,17 @@
 #include <stdarg.h>
 #include <stdio.h>
-#include <string>
-#include "main.hpp"
+#include "libtcod.hpp"
+class Actor;
+#include "Persistent.hpp"
+#include "Attacker.hpp"
+#include "Destructible.hpp"
+#include "Ai.hpp"
+#include "Pickable.hpp"
+#include "Container.hpp"
+#include "Actor.hpp"
+#include "Gui.hpp"
+#include "Map.hpp"
+#include "Engine.hpp"
 
 static const int PANEL_HEIGHT=7;
 static const int MSG_HEIGHT=PANEL_HEIGHT-1;

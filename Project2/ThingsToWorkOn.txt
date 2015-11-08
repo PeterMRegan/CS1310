@@ -1,5 +1,3 @@
-change .hpp files to include header guards
-remove main.hpp and include only the needed .hpp files
 change class definitions to protect instance variables and access/change via methods
 add a start menu
 add in-game saving

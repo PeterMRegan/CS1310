@@ -1,5 +1,7 @@
-#include <iostream>
-#include "main.hpp"
+#include "libtcod.hpp"
+#include "Gui.hpp"
+#include "Map.hpp"
+#include "Engine.hpp"
 
 Engine::Engine(int screenWidth, int screenHeight):gameStatus(STARTUP),fovRadius(10),screenWidth(screenWidth),screenHeight(screenHeight),level(1)
 {
@@ -77,6 +79,7 @@ void Engine::render()
 			actor->render();
 		}
 	}
+	player->render();
 	topGui->renderLog();
 	botGui->renderStatus();
 }

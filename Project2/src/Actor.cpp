@@ -1,6 +1,13 @@
-#include "main.hpp"
 #include <math.h>
-#include <iostream>
+#include "libtcod.hpp"
+class Actor;
+#include "Persistent.hpp"
+#include "Attacker.hpp"
+#include "Destructible.hpp"
+#include "Ai.hpp"
+#include "Pickable.hpp"
+#include "Container.hpp"
+#include "Actor.hpp"
 
 Actor::Actor(int x, int y, int ch, const char *name, const TCODColor &col) : x(x),y(y),ch(ch),col(col),name(name),blocks(true),fovOnly(true),attacker(NULL),destructible(NULL),ai(NULL),pickable(NULL),container(NULL)
 {

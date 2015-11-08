@@ -1,3 +1,5 @@
+#ifndef PICKABLE_HPP
+#define PICKABLE_HPP
 class Pickable : public Persistent
 {
 	public :
@@ -12,3 +14,4 @@ class Pickable : public Persistent
 			HEALER,LIGHTNING_BOLT
 		};
 };
+#endif

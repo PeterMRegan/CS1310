@@ -1,6 +1,13 @@
 #include <stdio.h>
-#include <iostream>
-#include "main.hpp"
+#include "libtcod.hpp"
+class Actor;
+#include "Persistent.hpp"
+#include "Attacker.hpp"
+#include "Destructible.hpp"
+#include "Ai.hpp"
+#include "Pickable.hpp"
+#include "Container.hpp"
+#include "Actor.hpp"
 
 Destructible::Destructible(float maxHp, float defense, const char *corpseName) :
 	maxHp(maxHp),hp(maxHp),defense(defense)
@@ -110,13 +117,11 @@ Destructible *Destructible::create(TCODZip &zip)
 {
 	DestructibleType type=(DestructibleType)zip.getInt();
 	Destructible *destructible=NULL;
-	std::cout << type << std::endl;
 	switch(type)
 	{
 		case MONSTER : destructible=new MonsterDestructible(0,0,"test"); break;
 		case PLAYER : destructible = new PlayerDestructible(0,0,"test"); break;
 	}
-	std::cout << "test 1" << std::endl;
 	destructible->load(zip);
 	return destructible;
 }

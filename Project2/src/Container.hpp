@@ -1,3 +1,5 @@
+#ifndef CONTAINER_HPP
+#define CONTAINER_HPP
 class Container : public Persistent
 {
 	public :
@@ -11,3 +13,4 @@ class Container : public Persistent
 		void load(TCODZip &zip);
 		void save(TCODZip &zip);
 };
+#endif

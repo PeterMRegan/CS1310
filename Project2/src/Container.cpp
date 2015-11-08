@@ -1,4 +1,12 @@
-#include "main.hpp"
+#include "libtcod.hpp"
+class Actor;
+#include "Persistent.hpp"
+#include "Attacker.hpp"
+#include "Destructible.hpp"
+#include "Ai.hpp"
+#include "Pickable.hpp"
+#include "Container.hpp"
+#include "Actor.hpp"
 
 Container::Container(int size) : size(size)
 {

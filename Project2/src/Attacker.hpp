@@ -1,3 +1,6 @@
+#ifndef ATTACKER_HPP
+#define ATTACKER_HPP
+
 class Attacker : public Persistent
 {
 	public :
@@ -8,3 +11,4 @@ class Attacker : public Persistent
 		void load(TCODZip &zip);
 		void save(TCODZip &zip);
 };
+#endif

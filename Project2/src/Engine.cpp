@@ -1,5 +1,15 @@
-#include <iostream>
-#include "main.hpp"
+#include "libtcod.hpp"
+class Actor;
+#include "Persistent.hpp"
+#include "Attacker.hpp"
+#include "Destructible.hpp"
+#include "Ai.hpp"
+#include "Pickable.hpp"
+#include "Container.hpp"
+#include "Actor.hpp"
+#include "Gui.hpp"
+#include "Map.hpp"
+#include "Engine.hpp"
 
 Engine::Engine(int screenWidth, int screenHeight):gameStatus(STARTUP),fovRadius(10),screenWidth(screenWidth),screenHeight(screenHeight),level(1)
 {

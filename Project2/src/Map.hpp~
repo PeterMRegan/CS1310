@@ -30,5 +30,5 @@ class Map : public Persistent
 		friend class BspListener;
 
 		void dig(int x1, int y1, int x2, int y2);
-		void createRoom(bool first, int x1, int y1, int x2, int y2, withActors);
+		void createRoom(bool first, int x1, int y1, int x2, int y2, bool withActors);
 };

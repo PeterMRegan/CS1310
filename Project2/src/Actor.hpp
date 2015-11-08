@@ -1,3 +1,6 @@
+#ifndef ACTOR_HPP
+#define ACTOR_HPP
+
 class Actor : public Persistent
 {
 	public :
@@ -21,3 +24,6 @@ class Actor : public Persistent
 		void load(TCODZip &zip);
 		void save(TCODZip &zip);
 };
+
+static const int MAP_OFFSET = 7;
+#endif

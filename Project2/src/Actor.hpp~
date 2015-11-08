@@ -1,3 +1,6 @@
+#ifndef ACTOR_HPP
+#define ACTOR_HPP
+
 class Actor : public Persistent
 {
 	public :
@@ -6,6 +9,7 @@ class Actor : public Persistent
 		TCODColor col; //color
 		const char *name; // the actor's name
 		bool blocks; //can we walk on this actor?
+		bool fovOnly; //only display when in fov
 		Attacker *attacker; //something that deals damage
 		Destructible *destructible; //something that can be damaged
 		Ai *ai; //something self-updating
@@ -20,3 +24,6 @@ class Actor : public Persistent
 		void load(TCODZip &zip);
 		void save(TCODZip &zip);
 };
+
+static const int MAP_OFFSET = 7;
+#endif

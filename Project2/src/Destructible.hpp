@@ -1,3 +1,5 @@
+#ifndef DESTRUCTIBLE_HPP
+#define DESTRUCTIBLE_HPP
 class Destructible : public Persistent
 {
 	public :
@@ -38,3 +40,4 @@ class PlayerDestructible : public Destructible
 		void die(Actor *owner);
 		void save(TCODZip &zip);
 };
+#endif

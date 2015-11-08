@@ -1,3 +1,5 @@
+#ifndef GUI_HPP
+#define GUI_HPP
 class Gui : public Persistent
 {
 	public :
@@ -21,3 +23,4 @@ class Gui : public Persistent
 		};
 		TCODList<Message *> log;
 };
+#endif

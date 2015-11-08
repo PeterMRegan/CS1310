@@ -1,3 +1,5 @@
+#ifndef POTION_HPP
+#define POTION_HPP
 class Healer : public Pickable
 {
 	public :
@@ -8,3 +10,4 @@ class Healer : public Pickable
 		void load(TCODZip &zip);
 		void save(TCODZip &zip);
 };
+#endif

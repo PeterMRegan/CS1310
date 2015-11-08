@@ -1,6 +1,17 @@
 #include <stdio.h>
 #include <math.h>
-#include "main.hpp"
+#include "libtcod.hpp"
+class Actor;
+#include "Persistent.hpp"
+#include "Attacker.hpp"
+#include "Destructible.hpp"
+#include "Ai.hpp"
+#include "Pickable.hpp"
+#include "Container.hpp"
+#include "Actor.hpp"
+#include "Gui.hpp"
+#include "Map.hpp"
+#include "Engine.hpp"
 
 //how many turns the monster chases the player after losing his sight
 static const int TRACKING_TURNS=3;

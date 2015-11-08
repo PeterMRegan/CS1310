@@ -1,6 +1,16 @@
 #include <stdio.h>
-#include <iostream>
-#include "main.hpp"
+#include "libtcod.hpp"
+class Actor;
+#include "Persistent.hpp"
+#include "Attacker.hpp"
+#include "Destructible.hpp"
+#include "Ai.hpp"
+#include "Pickable.hpp"
+#include "Container.hpp"
+#include "Actor.hpp"
+#include "Gui.hpp"
+#include "Map.hpp"
+#include "Engine.hpp"
 
 Destructible::Destructible(float maxHp, float defense, const char *corpseName) :
 	maxHp(maxHp),hp(maxHp),defense(defense)

@@ -1,6 +1,6 @@
 #include "libtcod.hpp"
 class Actor;
-#include "Pesistent.hpp"
+#include "Persistent.hpp"
 #include "Gui.hpp"
 #include "Destructible.hpp"
 #include "Attacker.hpp"

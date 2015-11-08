@@ -1,4 +1,16 @@
-#include "main.hpp"
+#include "libtcod.hpp"
+class Actor;
+#include "Persistent.hpp"
+#include "Attacker.hpp"
+#include "Destructible.hpp"
+#include "Ai.hpp"
+#include "Pickable.hpp"
+#include "Container.hpp"
+#include "Potion.hpp"
+#include "Actor.hpp"
+#include "Gui.hpp"
+#include "Map.hpp"
+#include "Engine.hpp"
 
 LightningBolt::LightningBolt(float range, float damage) : range(range),damage(damage)
 {
@@ -16,4 +28,17 @@ bool LightningBolt::use(Actor *owner, Actor *wearer)
 	engine.topGui->message(TCODColor::lightBlue, "A lightning bolt strikes the %s with a loud thunder!\nThe damage is %g hit points.",closestMonster->name,damage);
 	closestMonster->destructible->takeDamage(closestMonster,damage);
 	return Pickable::use(owner,wearer);
+}
+
+void LightningBolt::load(TCODZip &zip)
+{
+	range=zip.getFloat();
+	damage=zip.getFloat();
+}
+
+void LightningBolt::save(TCODZip &zip)
+{
+	zip.putInt(LIGHTNING_BOLT);
+	zip.putFloat(range);
+	zip.putFloat(damage);
 }
