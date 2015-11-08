@@ -30,7 +30,7 @@ class Engine
 
 		Engine(int screenWidth, int screenHeight);
 		~Engine();
-		void sendToBack(Actor *actor);
+//		void sendToBack(Actor *actor);
 		void update();
 		void render();
 		void nextLevel();

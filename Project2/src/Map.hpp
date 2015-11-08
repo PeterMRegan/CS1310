@@ -12,6 +12,7 @@ class Map : public Persistent
 {
 	public :
 		int width,height;
+                int difficulty;
 		TCODList<Actor *> actors;
 
 		Map(int width, int height);
@@ -27,6 +28,8 @@ class Map : public Persistent
 		void init(bool withActors);
 		void load(TCODZip &zip);
 		void save(TCODZip &zip);
+                void sendToBack(Actor *actor);
+
 	protected :
 		Tile *tiles;
 		TCODMap *map;

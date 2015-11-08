@@ -97,7 +97,7 @@ void Map::addItem(int x, int y)
 		cureLightPotion->pickable=new Healer(4);
                 actors.push(cureLightPotion);
 //		engine.actors.push(cureLightPotion);
-//		engine.sendToBack(cureLightPotion);
+//		engine.map->sendToBack(cureLightPotion);
 	}
 	else if (dice < 70)
 	{
@@ -107,7 +107,7 @@ void Map::addItem(int x, int y)
 		cureSeriousPotion->pickable=new Healer(12);
                 actors.push(cureSeriousPotion);
 //		engine.actors.push(cureSeriousPotion);
-//		engine.sendToBack(cureSeriousPotion);
+//		engine.map->sendToBack(cureSeriousPotion);
 	}
 	else if (dice <= 100)
 	{
@@ -117,7 +117,7 @@ void Map::addItem(int x, int y)
 		scrollOfLightningBolt->pickable=new LightningBolt(5,20);
                 actors.push(scrollOfLightningBolt);
 //		engine.actors.push(scrollOfLightningBolt);
-//		engine.sendToBack(scrollOfLightningBolt);
+//		engine.map->sendToBack(scrollOfLightningBolt);
 	}
 }
 
@@ -161,6 +161,12 @@ void Map::createRoom(bool first, int x1, int y1, int x2, int y2, bool withActors
 		//put the player in the first room
 		engine.player->x=(x1+x2)/2;
 		engine.player->y=(y1+y2)/2;
+                if (engine.level != 1)
+                {
+                    Actor* upStair = new Actor(engine.player->x,engine.player->y,'<',"stairs",TCODColor::white);
+                    actors.push(upStair);
+                    sendToBack(upStair);
+                }
 	}
 	else
 	{
@@ -241,4 +247,10 @@ void Map::load(TCODZip &zip)
 	{
 		tiles[i].explored=zip.getInt();
 	}
+}
+
+void Map::sendToBack(Actor *actor)
+{
+	actors.remove(actor);
+	actors.insertBefore(actor,0);
 }

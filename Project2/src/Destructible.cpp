@@ -50,7 +50,7 @@ void Destructible::die(Actor *owner)
 	owner->name=corpseName;
 	owner->blocks=false;
 	//make sure corpses are drawn before living actors
-	engine.sendToBack(owner);
+	engine.map->sendToBack(owner);
 }
 
 MonsterDestructible::MonsterDestructible(float maxHp, float defense, const char *corpseName) :

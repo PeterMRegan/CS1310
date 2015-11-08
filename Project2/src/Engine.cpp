@@ -64,11 +64,11 @@ void Engine::update()
 	}
 }
 
-void Engine::sendToBack(Actor *actor)
+/*void Engine::sendToBack(Actor *actor)
 {
 	map->actors.remove(actor);
 	map->actors.insertBefore(actor,0);
-}
+}*/
 
 void Engine::render()
 {
@@ -127,7 +127,7 @@ void Engine::init()
 
 	map->actors.push(stairs);
         map->actors.push(player);
-	sendToBack(stairs);
+	map->sendToBack(stairs);
 	
 	topGui->message(TCODColor::red,"Welcome stranger\nPrepare to perish in the Tombs of the Ancient Kings.");
 }
@@ -181,7 +181,7 @@ void Engine::load()
 	stairs=new Actor(0,0,0,NULL,TCODColor::white);
 	stairs->load(zip);
 	map->actors.push(stairs);
-	sendToBack(stairs);
+	map->sendToBack(stairs);
 	//then all other actors
 	int nbActors=zip.getInt();
 	while (nbActors > 0)
@@ -189,7 +189,7 @@ void Engine::load()
 		Actor *actor = new Actor(0,0,0,NULL,TCODColor::white);
 		actor->load(zip);
 		map->actors.push(actor);
-		sendToBack(actor);
+		map->sendToBack(actor);
 		nbActors--;
 	}
 	//finally the message log
