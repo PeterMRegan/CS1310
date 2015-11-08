@@ -1,5 +1,3 @@
-add in-game saving
-add a quit option
 impliment bidirectionality for stairs
 add diagonal movement
 make a screen abstraction for drawing things onto the screen
