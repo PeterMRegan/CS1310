@@ -7,13 +7,12 @@ Engine engine(80,60);
 
 int main()
 {
-	while (!TCODConsole::isWindowClosed())
+	while (!TCODConsole::isWindowClosed() && engine.gameStatus!=Engine::DEFEAT)
 	{
 		usleep(100000); //check every tenth of a second
 		engine.update();
 		engine.render();
 		TCODConsole::flush();
 	}
-	engine.save();
 	return 0;
 }

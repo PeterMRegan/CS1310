@@ -145,7 +145,7 @@ void Gui::startMenu()
 		con.setDefaultForeground(TCODColor(200,180,50));
 		con.printFrame(0,0,MENU_WIDTH,MENU_HEIGHT,true,TCOD_BKGND_DEFAULT,"start menu");
 		//display the menu options
-		con.print(2,0,"%s",menuMessage);
+		con.print(2,1,"%s",menuMessage);
 		con.print(2,10,"(n) start a new game");
 		con.print(2,15,"(l) load a saved game");
 		//blit the inventory console on the root console

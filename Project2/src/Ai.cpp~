@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <math.h>
-#include "Ai.hpp"
+#include "Actor.hpp"
 #include "Engine.hpp"
 
 //how many turns the monster chases the player after losing his sight
@@ -121,6 +121,37 @@ void PlayerAi::handleActionKey(Actor *owner, int ascii)
 			else
 			{
 				engine.topGui->message(TCODColor::lightGrey,"There are no stairs here");
+			}
+		}
+		break;
+		case 'S' : //save
+		{
+			engine.topGui->message(TCODColor::lightGrey,"Do you want to save? (y)es/(n)o");
+			if (yesNoChoice())
+			{
+				engine.save();
+				engine.gameStatus=Engine::DEFEAT;
+			}
+			else
+			{
+				engine.topGui->message(TCODColor::lightGrey,"Save aborted.");
+			}
+		}
+		break;
+		case 'q' : //quit
+		{
+			engine.topGui->message(TCODColor::lightGrey,"Do you want to quit without saving? (y)es/(n)o");
+			if (yesNoChoice())
+			{
+				if (TCODSystem::fileExists("game.sav"))
+				{
+					TCODSystem::deleteFile("game.sav");
+				}
+				engine.gameStatus=Engine::DEFEAT;
+			}
+			else
+			{
+				engine.topGui->message(TCODColor::lightGrey,"Quit aborted.");
 			}
 		}
 		break;
@@ -246,4 +277,28 @@ Ai *Ai::create(TCODZip &zip)
 	}
 	ai->load(zip);
 	return ai;
+}
+
+bool PlayerAi::yesNoChoice()
+{
+	engine.render();
+	TCODConsole::flush();
+	while (!TCODConsole::isWindowClosed())
+	{
+		TCOD_key_t key;
+		TCODSystem::waitForEvent(TCOD_EVENT_KEY_PRESS,&key,NULL,true);
+		switch(key.c)
+		{
+			case 'y' : //yes
+			{
+				return true;
+			}
+			break;
+			case 'n' : //no
+			{
+				return false;
+			}
+			break;
+		}
+	}
 }

@@ -139,7 +139,7 @@ void Gui::startMenu()
 	static TCODConsole con(MENU_WIDTH,MENU_HEIGHT);
 	const char *menuMessage = "Welcome to Peter's C++ Project. Please choose how you would like to proceed.";
 	bool inMenu = true;
-	while (inMenu)
+	while (inMenu && !TCODConsole::isWindowClosed())
 	{
 		//display the menu frame
 		con.setDefaultForeground(TCODColor(200,180,50));

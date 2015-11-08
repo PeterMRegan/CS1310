@@ -19,6 +19,7 @@ class PlayerAi : public Ai
 	public :
 		void update(Actor *owner);
 		void handleActionKey(Actor *owner, int ascii);
+		bool yesNoChoice();
 		void load(TCODZip &zip);
 		void save(TCODZip &zip);
 

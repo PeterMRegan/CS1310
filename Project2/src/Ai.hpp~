@@ -1,6 +1,5 @@
 #ifndef AI_HPP
 #define AI_HPP
-//#include "Actor.hpp"
 
 class Ai : public Persistent
 {
@@ -20,6 +19,7 @@ class PlayerAi : public Ai
 	public :
 		void update(Actor *owner);
 		void handleActionKey(Actor *owner, int ascii);
+		bool yesNoChoice(const char *displayMessage);
 		void load(TCODZip &zip);
 		void save(TCODZip &zip);
 
