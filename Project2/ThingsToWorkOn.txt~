@@ -1,0 +1,11 @@
+change .hpp files to include header guards
+remove main.hpp and include only the needed .hpp files
+add a start menu
+add in-game saving
+impliment bidirectionality for stairs
+introduce sensible cooridor digging
+add xp for killing monsters
+add statistics for player and monsters
+change damage and defense based upon statistics
+add levels for player
+add levels for monsters

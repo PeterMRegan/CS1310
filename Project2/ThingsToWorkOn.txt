@@ -1,11 +1,24 @@
 change .hpp files to include header guards
 remove main.hpp and include only the needed .hpp files
+change class definitions to protect instance variables and access/change via methods
 add a start menu
 add in-game saving
+add a quit option
 impliment bidirectionality for stairs
 introduce sensible cooridor digging
+generalize potion class
+generalize scroll class
+add additional scrolls and potions
 add xp for killing monsters
 add statistics for player and monsters
 change damage and defense based upon statistics
 add levels for player
 add levels for monsters
+impliment wearable items
+add armor
+add weapons
+break inventory based upon item type
+add a help menu
+add an identification system
+create a spellcasting framework
+add spells
