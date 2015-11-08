@@ -12,5 +12,6 @@ class Actor;
 #include "Actor.hpp"
 #include "Map.hpp"
 #include "Engine.hpp"
+#include "TCODMapGenerator.hpp"
 
 static const int MAP_OFFSET = 7;

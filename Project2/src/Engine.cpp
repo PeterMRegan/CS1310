@@ -35,6 +35,7 @@ void Engine::nextLevel()
 	//create a new map
 	map = new Map(80,45);
 	map->init(true);
+        map = TCODMapGenerator::makeDefaultMap(map);
 	gameStatus=STARTUP;
 }
 
@@ -117,6 +118,8 @@ void Engine::init()
 	sendToBack(stairs);
 	map = new Map(80,43);
 	map -> init(true);
+        // map = TCODMapGenerator::makeDefaultMap(map);
+        map = TCODMapGenerator::makeEmptyMap(map);
 	topGui->message(TCODColor::red,"Welcome stranger\nPrepare to perish in the Tombs of the Ancient Kings.");
 }
 
