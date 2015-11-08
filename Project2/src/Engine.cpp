@@ -10,6 +10,7 @@ class Actor;
 #include "Gui.hpp"
 #include "Map.hpp"
 #include "Engine.hpp"
+#include "TCODMapGenerator.hpp"
 
 Engine::Engine(int screenWidth, int screenHeight):gameStatus(STARTUP),fovRadius(10),screenWidth(screenWidth),screenHeight(screenHeight),level(1)
 {
@@ -45,6 +46,7 @@ void Engine::nextLevel()
 	//create a new map
 	map = new Map(80,45);
 	map->init(true);
+        // map = TCODMapGenerator::makeEmptyMap(map);
 	gameStatus=STARTUP;
 }
 
@@ -127,6 +129,7 @@ void Engine::init()
 	sendToBack(stairs);
 	map = new Map(80,43);
 	map -> init(true);
+        // map = TCODMapGenerator::makeEmptyMap(map); //example
 	topGui->message(TCODColor::red,"Welcome stranger\nPrepare to perish in the Tombs of the Ancient Kings.");
 }
 
