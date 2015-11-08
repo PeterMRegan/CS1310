@@ -9,4 +9,4 @@ class LightningBolt: public Pickable
 		void load(TCODZip &zip);
 		void save(TCODZip &zip);
 };
-#endif
+#endif //scroll.hpp

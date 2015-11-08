@@ -1,3 +1,5 @@
+#ifndef ENGINE_HPP
+#define ENGINE_HPP
 class Engine
 {
 	public :
@@ -39,3 +41,4 @@ class Engine
 };
 
 extern Engine engine;
+#endif

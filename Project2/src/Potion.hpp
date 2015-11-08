@@ -10,4 +10,4 @@ class Healer : public Pickable
 		void load(TCODZip &zip);
 		void save(TCODZip &zip);
 };
-#endif
+#endif //potion.hpp

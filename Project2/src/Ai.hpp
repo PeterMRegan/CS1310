@@ -38,4 +38,4 @@ class MonsterAi : public Ai
 		int moveCount;
 		void moveOrAttack(Actor *owner, int targetx, int targety);
 };
-#endif
+#endif //ai.hpp

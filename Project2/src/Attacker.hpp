@@ -11,4 +11,4 @@ class Attacker : public Persistent
 		void load(TCODZip &zip);
 		void save(TCODZip &zip);
 };
-#endif
+#endif //attacker.hpp

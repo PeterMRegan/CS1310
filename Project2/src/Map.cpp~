@@ -9,7 +9,7 @@ class Actor;
 #include "Potion.hpp"
 #include "Scroll.hpp"
 #include "Actor.hpp"
-//#include "Gui.hpp"
+#include "Gui.hpp"
 #include "Map.hpp"
 #include "Engine.hpp"
 

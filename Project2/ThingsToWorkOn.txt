@@ -3,6 +3,7 @@ add a start menu
 add in-game saving
 add a quit option
 impliment bidirectionality for stairs
+make a screen abstraction for drawing things onto the screen
 introduce sensible cooridor digging
 generalize potion class
 generalize scroll class

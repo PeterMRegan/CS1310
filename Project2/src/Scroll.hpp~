@@ -1,3 +1,5 @@
+#ifndef SCROLL_HPP
+#define SCROLL_HPP
 class LightningBolt: public Pickable
 {
 	public :
@@ -7,5 +9,4 @@ class LightningBolt: public Pickable
 		void load(TCODZip &zip);
 		void save(TCODZip &zip);
 };
-
-
+#endif

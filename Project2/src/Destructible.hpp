@@ -40,4 +40,4 @@ class PlayerDestructible : public Destructible
 		void die(Actor *owner);
 		void save(TCODZip &zip);
 };
-#endif
+#endif //destructible.hpp

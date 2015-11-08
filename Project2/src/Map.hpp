@@ -34,4 +34,4 @@ class Map : public Persistent
 		void dig(int x1, int y1, int x2, int y2);
 		void createRoom(bool first, int x1, int y1, int x2, int y2, bool withActors);
 };
-#endif
+#endif //map.hpp

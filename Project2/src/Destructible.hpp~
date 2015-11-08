@@ -1,5 +1,5 @@
-#ifndef DESTRUCTIBLE_H
-#define DESTRUCTIBLE_H
+#ifndef DESTRUCTIBLE_HPP
+#define DESTRUCTIBLE_HPP
 class Destructible : public Persistent
 {
 	public :

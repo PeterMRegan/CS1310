@@ -16,14 +16,15 @@ class Actor : public Persistent
 		Pickable *pickable; //something that can be picked and used
 		Container *container; //something that can contain actors
 
+
 		Actor (int x, int y, int ch, const char *name, const TCODColor &col);
 		~Actor();
+		
 		void update();
 		void render() const;
 		float getDistance(int cx, int cy) const;
 		void load(TCODZip &zip);
 		void save(TCODZip &zip);
 };
-
-static const int MAP_OFFSET = 7;
-#endif
+extern const int MAP_OFFSET;
+#endif //actor.hpp

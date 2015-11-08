@@ -1,6 +1,7 @@
 #include <math.h>
 #include "libtcod.hpp"
 class Actor;
+#include "Persistent.hpp"
 #include "Attacker.hpp"
 #include "Destructible.hpp"
 #include "Ai.hpp"

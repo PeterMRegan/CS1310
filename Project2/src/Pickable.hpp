@@ -14,4 +14,4 @@ class Pickable : public Persistent
 			HEALER,LIGHTNING_BOLT
 		};
 };
-#endif
+#endif //pickable.hpp

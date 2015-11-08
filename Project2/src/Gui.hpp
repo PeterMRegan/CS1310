@@ -23,4 +23,4 @@ class Gui : public Persistent
 		};
 		TCODList<Message *> log;
 };
-#endif
+#endif //gui.hpp

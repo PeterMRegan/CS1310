@@ -41,4 +41,4 @@ class Engine
 };
 
 extern Engine engine;
-#endif
+#endif //engine.hpp

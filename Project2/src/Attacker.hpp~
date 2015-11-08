@@ -1,5 +1,5 @@
-#ifndef ATTACKER_H
-#define ATTACKER_H
+#ifndef ATTACKER_HPP
+#define ATTACKER_HPP
 
 class Attacker : public Persistent
 {

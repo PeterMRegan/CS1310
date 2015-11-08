@@ -8,6 +8,9 @@ class Actor;
 #include "Pickable.hpp"
 #include "Container.hpp"
 #include "Actor.hpp"
+#include "Gui.hpp"
+#include "Map.hpp"
+#include "Engine.hpp"
 
 Actor::Actor(int x, int y, int ch, const char *name, const TCODColor &col) : x(x),y(y),ch(ch),col(col),name(name),blocks(true),fovOnly(true),attacker(NULL),destructible(NULL),ai(NULL),pickable(NULL),container(NULL)
 {
