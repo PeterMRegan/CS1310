@@ -48,9 +48,12 @@ void Gui::renderStatus()
 	con->clear();
 
 	//draw the players name
-	//const char *name = engine.player->name;
 	con->setDefaultForeground(TCODColor::lightGrey);
 	con->print(0,0,"Name:%s",engine.player->name);
+
+	//draw the dungeon level
+	con->setDefaultForeground(TCODColor::white);
+	con->print(60,0,"Dungeon level %d",engine.level);
 
 	//draw the players hp
 	con->setDefaultForeground(TCODColor::red);

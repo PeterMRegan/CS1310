@@ -13,9 +13,11 @@ class Engine
 		TCODList<Actor *> actors;
 		TCODList<Actor *> monsters;
 		Actor *player;
+		Actor *stairs;
 		Map *map;
 		int screenWidth;
 		int screenHeight;
+		int level;
 		Gui *topGui;
 		Gui *botGui;
 		TCOD_key_t lastKey;
@@ -25,6 +27,7 @@ class Engine
 		void sendToBack(Actor *actor);
 		void update();
 		void render();
+		void nextLevel();
 		Actor *getClosestMonster(int x, int y, float range) const;
 
 		void init();

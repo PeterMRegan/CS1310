@@ -1,6 +1,6 @@
-class Actor
+class Actor : public Persistent
 {
-	public : public Persistent
+	public :
 		int x,y; //position on map
 		int ch; //ascii code
 		TCODColor col; //color

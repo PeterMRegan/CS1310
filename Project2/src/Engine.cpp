@@ -1,7 +1,7 @@
 #include <iostream>
 #include "main.hpp"
 
-Engine::Engine(int screenWidth, int screenHeight):gameStatus(STARTUP),fovRadius(10),screenWidth(screenWidth),screenHeight(screenHeight)
+Engine::Engine(int screenWidth, int screenHeight):gameStatus(STARTUP),fovRadius(10),screenWidth(screenWidth),screenHeight(screenHeight),level(1)
 {
 	TCODConsole::initRoot(screenWidth,screenHeight,"libtcod C++ tutorial",false);
 	topGui = new Gui(53);
@@ -14,6 +14,28 @@ Engine::~Engine()
 	delete map;
 	delete topGui;
 	delete botGui;
+}
+
+void Engine::nextLevel()
+{
+	level++;
+	topGui->message(TCODColor::lightViolet,"You take a moment to rest, and recover your strength.");
+	player->destructible->heal(player->destructible->maxHp/2);
+	topGui->message(TCODColor::red,"After a rare moment of peace, you descend\ndeeper into the heart of the dungeon...");
+	delete map;
+	//delete all actors but player and stairs
+	for (Actor **i=actors.begin(); i!=actors.end(); i++)
+	{
+		if (*i!=player && *i!=stairs)
+		{
+			delete *i;
+			i = actors.remove(i);
+		}
+	}
+	//create a new map
+	map = new Map(80,45);
+	map->init(true);
+	gameStatus=STARTUP;
 }
 
 void Engine::update()
@@ -50,11 +72,12 @@ void Engine::render()
 	for (Actor **iterator=actors.begin(); iterator != actors.end(); iterator++)
 	{
 		Actor *actor=*iterator;
-		if (map->isInFov(actor->x,actor->y))
+		if (actor != player && ((!actor->fovOnly && map->isExplored(actor->x,actor->y)) || map->isInFov(actor->x,actor->y)))
 		{
 			actor->render();
 		}
 	}
+	player->render();
 	topGui->renderLog();
 	botGui->renderStatus();
 }
@@ -87,6 +110,11 @@ void Engine::init()
 	player->ai = new PlayerAi();
 	player->container = new Container(26);
 	actors.push(player);
+	stairs = new Actor(0,0,'>',"stairs",TCODColor::white);
+	stairs->blocks=false;
+	stairs->fovOnly=false;
+	actors.push(stairs);
+	sendToBack(stairs);
 	map = new Map(80,43);
 	map -> init(true);
 	topGui->message(TCODColor::red,"Welcome stranger\nPrepare to perish in the Tombs of the Ancient Kings.");
@@ -107,11 +135,13 @@ void Engine::save()
 		map->save(zip);
 		//then the player
 		player->save(zip);
+		//then the stairs
+		stairs->save(zip);
 		//then all the other actors
-		zip.putInt(actors.size()-1);
+		zip.putInt(actors.size()-2);
 		for (Actor **i=actors.begin(); i!=actors.end(); i++)
 		{
-			if (*i!=player)
+			if (*i!=player && *i!=stairs)
 			{
 				(*i)->save(zip);
 			}
@@ -137,6 +167,11 @@ void Engine::load()
 		player=new Actor(0,0,0,NULL,TCODColor::white);
 		player->load(zip);
 		actors.push(player);
+		// the stairs
+		stairs=new Actor(0,0,0,NULL,TCODColor::white);
+		stairs->load(zip);
+		actors.push(stairs);
+		sendToBack(stairs);
 		//then all other actors
 		int nbActors=zip.getInt();
 		while (nbActors > 0)

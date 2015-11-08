@@ -247,7 +247,7 @@ void Map::init(bool withActors)
 	tiles=new Tile[width*height];
 	map=new TCODMap(width,height);
 	TCODBsp bsp(0,0,width,height);
-	bsp.splitRecursive(rng,8,ROOM_MAX_SIZE,1.5f,1.5f);
+	bsp.splitRecursive(rng,8,ROOM_MAX_SIZE,ROOM_MAX_SIZE,1.5f,1.5f);
 	BspListener listener(*this);
 	bsp.traverseInvertedLevelOrder(&listener,(void *)withActors);
 }

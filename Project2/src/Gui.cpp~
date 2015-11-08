@@ -48,9 +48,12 @@ void Gui::renderStatus()
 	con->clear();
 
 	//draw the players name
-	//const char *name = engine.player->name;
 	con->setDefaultForeground(TCODColor::lightGrey);
 	con->print(0,0,"Name:%s",engine.player->name);
+
+	//draw the dungeon level
+	con->setDefaultForeground(TCODColor::white);
+	con->print(70,0,"Dengeon level %d",engine.level);
 
 	//draw the players hp
 	con->setDefaultForeground(TCODColor::red);
@@ -111,7 +114,7 @@ void Gui::save(TCODZip &zip)
 	zip.putInt(log.size());
 	for (Message **i=log.begin(); i != log.end(); i++)
 	{
-		zip.putString((*i)-text);
+		zip.putString((*i)->text);
 		zip.putColor(&(*i)->col);
 	}
 }
