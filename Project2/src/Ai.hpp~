@@ -1,5 +1,6 @@
 #ifndef AI_HPP
 #define AI_HPP
+//#include "Actor.hpp"
 
 class Ai : public Persistent
 {
@@ -38,4 +39,4 @@ class MonsterAi : public Ai
 		int moveCount;
 		void moveOrAttack(Actor *owner, int targetx, int targety);
 };
-#endif
+#endif //ai.hpp

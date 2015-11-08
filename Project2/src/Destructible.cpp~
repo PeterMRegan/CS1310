@@ -8,6 +8,9 @@ class Actor;
 #include "Pickable.hpp"
 #include "Container.hpp"
 #include "Actor.hpp"
+#include "Gui.hpp"
+#include "Map.hpp"
+#include "Engine.hpp"
 
 Destructible::Destructible(float maxHp, float defense, const char *corpseName) :
 	maxHp(maxHp),hp(maxHp),defense(defense)

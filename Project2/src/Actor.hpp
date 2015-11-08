@@ -1,5 +1,13 @@
 #ifndef ACTOR_HPP
 #define ACTOR_HPP
+#include "libtcod.hpp"
+class Actor;
+#include "Persistent.hpp"
+#include "Attacker.hpp"
+#include "Destructible.hpp"
+#include "Ai.hpp"
+#include "Pickable.hpp"
+#include "Container.hpp"
 
 class Actor : public Persistent
 {

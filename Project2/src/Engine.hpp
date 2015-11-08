@@ -1,10 +1,14 @@
 #ifndef ENGINE_HPP
 #define ENGINE_HPP
+#include "libtcod.hpp"
+#include "Map.hpp"
+#include "Gui.hpp"
 class Engine
 {
 	public :
 		enum GameStatus
 		{
+			MENU,
 			STARTUP,
 			IDLE,
 			NEW_TURN,

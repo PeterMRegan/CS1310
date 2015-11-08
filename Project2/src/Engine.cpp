@@ -1,18 +1,8 @@
-#include "libtcod.hpp"
-class Actor;
-#include "Persistent.hpp"
-#include "Attacker.hpp"
-#include "Destructible.hpp"
-#include "Ai.hpp"
-#include "Pickable.hpp"
-#include "Container.hpp"
 #include "Actor.hpp"
-#include "Gui.hpp"
-#include "Map.hpp"
 #include "Engine.hpp"
 #include "TCODMapGenerator.hpp"
 
-Engine::Engine(int screenWidth, int screenHeight):gameStatus(STARTUP),fovRadius(10),screenWidth(screenWidth),screenHeight(screenHeight),level(1)
+Engine::Engine(int screenWidth, int screenHeight):gameStatus(MENU),fovRadius(10),screenWidth(screenWidth),screenHeight(screenHeight),level(1)
 {
 	TCODConsole::initRoot(screenWidth,screenHeight,"libtcod C++ tutorial",false);
 	topGui = new Gui(53);
@@ -52,6 +42,11 @@ void Engine::nextLevel()
 
 void Engine::update()
 {
+	if (gameStatus == MENU)
+	{
+		topGui->startMenu();
+		gameStatus = STARTUP;
+	}
 	if (gameStatus == STARTUP) map->computeFov();
 	gameStatus=IDLE;
 	TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS,&lastKey,NULL);
@@ -167,39 +162,32 @@ void Engine::save()
 
 void Engine::load()
 {
-	if (TCODSystem::fileExists("game.sav"))
+	TCODZip zip;
+	zip.loadFromFile("game.sav");
+	//load the map
+	int width=zip.getInt();
+	int height=zip.getInt();
+	map = new Map(width,height);
+	map->load(zip);
+	//then the player
+	player=new Actor(0,0,0,NULL,TCODColor::white);
+	player->load(zip);
+	actors.push(player);
+	// the stairs
+	stairs=new Actor(0,0,0,NULL,TCODColor::white);
+	stairs->load(zip);
+	actors.push(stairs);
+	sendToBack(stairs);
+	//then all other actors
+	int nbActors=zip.getInt();
+	while (nbActors > 0)
 	{
-		TCODZip zip;
-		zip.loadFromFile("game.sav");
-		//load the map
-		int width=zip.getInt();
-		int height=zip.getInt();
-		map = new Map(width,height);
-		map->load(zip);
-		//then the player
-		player=new Actor(0,0,0,NULL,TCODColor::white);
-		player->load(zip);
-		actors.push(player);
-		// the stairs
-		stairs=new Actor(0,0,0,NULL,TCODColor::white);
-		stairs->load(zip);
-		actors.push(stairs);
-		sendToBack(stairs);
-		//then all other actors
-		int nbActors=zip.getInt();
-		while (nbActors > 0)
-		{
-			Actor *actor = new Actor(0,0,0,NULL,TCODColor::white);
-			actor->load(zip);
-			actors.push(actor);
-			sendToBack(actor);
-			nbActors--;
-		}
-		//finally the message log
-		topGui->load(zip);
+		Actor *actor = new Actor(0,0,0,NULL,TCODColor::white);
+		actor->load(zip);
+		actors.push(actor);
+		sendToBack(actor);
+		nbActors--;
 	}
-	else
-	{
-		engine.init();
-	}
+	//finally the message log
+	topGui->load(zip);
 }

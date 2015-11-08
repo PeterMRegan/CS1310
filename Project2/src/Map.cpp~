@@ -1,22 +1,13 @@
-#include "libtcod.hpp"
-class Actor;
-#include "Persistent.hpp"
-#include "Attacker.hpp"
-#include "Destructible.hpp"
-#include "Ai.hpp"
-#include "Pickable.hpp"
-#include "Container.hpp"
 #include "Potion.hpp"
 #include "Scroll.hpp"
 #include "Actor.hpp"
-#include "Gui.hpp"
-#include "Map.hpp"
 #include "Engine.hpp"
 
 static const int ROOM_MAX_SIZE = 12;
 static const int ROOM_MIN_SIZE = 6;
 static const int MAX_ROOM_MONSTERS = 3;
 static const int MAX_ROOM_ITEMS = 2;
+const int MAP_OFFSET = 7;
 
 class BspListener : public ITCODBspCallback
 {

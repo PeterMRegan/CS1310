@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include "libtcod.hpp"
+#include "Actor.hpp"
 #include "Engine.hpp"
 
 Engine engine(80,60);

@@ -8,6 +8,7 @@ class Gui : public Persistent
 		~Gui();
 		void renderLog();
 		void renderStatus();
+		void startMenu();
 		void message(const TCODColor &col, const char *text, ...);
 		void load(TCODZip &zip);
 		void save(TCODZip &zip);
@@ -23,4 +24,4 @@ class Gui : public Persistent
 		};
 		TCODList<Message *> log;
 };
-#endif
+#endif //gui.hpp

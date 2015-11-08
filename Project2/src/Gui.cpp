@@ -1,16 +1,7 @@
 #include <stdarg.h>
 #include <stdio.h>
-#include "libtcod.hpp"
-class Actor;
-#include "Persistent.hpp"
-#include "Attacker.hpp"
-#include "Destructible.hpp"
-#include "Ai.hpp"
-#include "Pickable.hpp"
-#include "Container.hpp"
+#include <string>
 #include "Actor.hpp"
-#include "Gui.hpp"
-#include "Map.hpp"
 #include "Engine.hpp"
 
 static const int PANEL_HEIGHT=7;
@@ -138,5 +129,52 @@ void Gui::load(TCODZip &zip)
 		TCODColor col=zip.getColor();
 		message(col,text);
 		nbMessages--;
+	}
+}
+
+void Gui::startMenu()
+{
+	static const int MENU_WIDTH=80;
+	static const int MENU_HEIGHT=60;
+	static TCODConsole con(MENU_WIDTH,MENU_HEIGHT);
+	const char *menuMessage = "Welcome to Peter's C++ Project. Please choose how you would like to proceed.";
+	bool inMenu = true;
+	while (inMenu)
+	{
+		//display the menu frame
+		con.setDefaultForeground(TCODColor(200,180,50));
+		con.printFrame(0,0,MENU_WIDTH,MENU_HEIGHT,true,TCOD_BKGND_DEFAULT,"start menu");
+		//display the menu options
+		con.print(2,1,"%s",menuMessage);
+		con.print(2,10,"(n) start a new game");
+		con.print(2,15,"(l) load a saved game");
+		//blit the inventory console on the root console
+		TCODConsole::blit(&con,0,0,MENU_WIDTH,MENU_HEIGHT,TCODConsole::root, engine.screenWidth/2 - MENU_WIDTH/2, engine.screenHeight/2-MENU_HEIGHT/2);
+		TCODConsole::flush();
+		//wait for a key press
+		TCOD_key_t key;
+		TCODSystem::waitForEvent(TCOD_EVENT_KEY_PRESS,&key,NULL,true);
+		switch(key.c)
+		{
+			case 'n' : //start a new game
+			{
+				engine.init();
+				inMenu = false;
+			}
+			break;
+			case 'l' : //load a game
+			{
+				if (TCODSystem::fileExists("game.sav"))
+				{
+					engine.load();
+					inMenu = false;
+				}
+				else
+				{
+					menuMessage = "There was no saved game to load.";
+				}
+			}
+			break;
+		}
 	}
 }

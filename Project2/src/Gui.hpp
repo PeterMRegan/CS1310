@@ -11,6 +11,7 @@ class Gui : public Persistent
 		void message(const TCODColor &col, const char *text, ...);
 		void load(TCODZip &zip);
 		void save(TCODZip &zip);
+		void startMenu();
 
 	protected :
 		TCODConsole *con;

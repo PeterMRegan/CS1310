@@ -1,8 +1,10 @@
-change class definitions to protect instance variables and access/change via methods
 add a start menu
 add in-game saving
 add a quit option
 impliment bidirectionality for stairs
+add diagonal movement
+make a screen abstraction for drawing things onto the screen
+abstract and compartmentalize
 introduce sensible cooridor digging
 generalize potion class
 generalize scroll class
