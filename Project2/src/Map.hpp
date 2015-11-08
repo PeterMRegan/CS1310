@@ -1,6 +1,7 @@
 #ifndef MAP_HPP
 #define MAP_HPP
 #include "Persistent.hpp"
+#include "Actor.hpp"
 struct Tile
 {
 	bool explored; //has the player already seen this tile?
@@ -11,6 +12,7 @@ class Map : public Persistent
 {
 	public :
 		int width,height;
+		TCODList<Actor *> actors;
 
 		Map(int width, int height);
 		~Map();

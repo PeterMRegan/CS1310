@@ -30,7 +30,8 @@ bool Map::canWalk(int x, int y) const
 		//this is a wall
 		return false;
 	}
-	for (Actor **i=engine.actors.begin();i!=engine.actors.end();i++)
+        for (Actor **i=actors.begin(); i != actors.end(); i++)
+//	for (Actor **i=engine.actors.begin();i!=engine.actors.end();i++)
 	{
 		Actor *actor=*i;
 		if (actor->blocks && actor->x == x && actor->y == y)
@@ -67,8 +68,9 @@ void Map::addMonster(int x, int y)
 		orc->destructible = new MonsterDestructible(10,0,"dead orc");
 		orc->attacker = new Attacker(3);
 		orc->ai = new MonsterAi();
-		engine.actors.push(orc);
-		engine.monsters.push(orc);
+                actors.push(orc);
+                //engine.actors.push(orc);
+		//engine.monsters.push(orc);
 	}
 	else
 	{
@@ -77,8 +79,9 @@ void Map::addMonster(int x, int y)
 		troll->destructible = new MonsterDestructible(16,1,"troll carcass");
 		troll->attacker = new Attacker(4);
 		troll->ai = new MonsterAi();
-		engine.actors.push(troll);
-		engine.monsters.push(troll);
+                actors.push(troll);
+//		engine.actors.push(troll);
+//		engine.monsters.push(troll);
 	}
 }
 
@@ -92,8 +95,9 @@ void Map::addItem(int x, int y)
 		Actor *cureLightPotion=new Actor(x,y,'!',"potion of cure minor wounds",TCODColor::violet);
 		cureLightPotion->blocks=false;
 		cureLightPotion->pickable=new Healer(4);
-		engine.actors.push(cureLightPotion);
-		engine.sendToBack(cureLightPotion);
+                actors.push(cureLightPotion);
+//		engine.actors.push(cureLightPotion);
+//		engine.sendToBack(cureLightPotion);
 	}
 	else if (dice < 70)
 	{
@@ -101,8 +105,9 @@ void Map::addItem(int x, int y)
 		Actor *cureSeriousPotion=new Actor(x,y,'!',"potion of cure serious wounds",TCODColor::blue);
 		cureSeriousPotion->blocks=false;
 		cureSeriousPotion->pickable=new Healer(12);
-		engine.actors.push(cureSeriousPotion);
-		engine.sendToBack(cureSeriousPotion);
+                actors.push(cureSeriousPotion);
+//		engine.actors.push(cureSeriousPotion);
+//		engine.sendToBack(cureSeriousPotion);
 	}
 	else if (dice <= 100)
 	{
@@ -110,8 +115,9 @@ void Map::addItem(int x, int y)
 		Actor *scrollOfLightningBolt=new Actor(x,y,'?',"scroll of lightning bolt", TCODColor::lightYellow);
 		scrollOfLightningBolt->blocks=false;
 		scrollOfLightningBolt->pickable=new LightningBolt(5,20);
-		engine.actors.push(scrollOfLightningBolt);
-		engine.sendToBack(scrollOfLightningBolt);
+                actors.push(scrollOfLightningBolt);
+//		engine.actors.push(scrollOfLightningBolt);
+//		engine.sendToBack(scrollOfLightningBolt);
 	}
 }
 

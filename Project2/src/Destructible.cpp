@@ -68,7 +68,7 @@ void MonsterDestructible::die(Actor *owner)
 	//transform it into a nasty corpse! it doesn't block, can't be attacked and doesn't move
 	engine.topGui->message(TCODColor::lightGrey, "%s is dead",owner->name);
 	Destructible::die(owner);
-	engine.monsters.remove(owner);
+//	engine.monsters.remove(owner);
 }
 
 void PlayerDestructible::die(Actor *owner)

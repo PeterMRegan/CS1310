@@ -16,8 +16,8 @@ class Engine
 			DEFEAT
 		} gameStatus;
 		int fovRadius;
-		TCODList<Actor *> actors;
-		TCODList<Actor *> monsters;
+//		TCODList<Actor *> actors;
+//		TCODList<Actor *> monsters;
 		Actor *player;
 		Actor *stairs;
 		Map *map;

@@ -11,7 +11,7 @@ Engine::Engine(int screenWidth, int screenHeight):gameStatus(MENU),fovRadius(10)
 
 Engine::~Engine()
 {
-	actors.clearAndDelete();
+	map->actors.clearAndDelete();
 	delete map;
 	delete topGui;
 	delete botGui;
@@ -25,12 +25,12 @@ void Engine::nextLevel()
 	topGui->message(TCODColor::red,"After a rare moment of peace, you descend\ndeeper into the heart of the dungeon...");
 	delete map;
 	//delete all actors but player and stairs
-	for (Actor **i=actors.begin(); i!=actors.end(); i++)
+	for (Actor **i=map->actors.begin(); i!=map->actors.end(); i++)
 	{
 		if (*i!=player && *i!=stairs)
 		{
 			delete *i;
-			i = actors.remove(i);
+			i = map->actors.remove(i);
 		}
 	}
 	//create a new map
@@ -53,7 +53,7 @@ void Engine::update()
 	player->update();
 	if (gameStatus == NEW_TURN)
 	{
-		for (Actor **i=actors.begin();i != actors.end();i++)
+		for (Actor **i=map->actors.begin();i != map->actors.end();i++)
 		{
 			Actor *actor=*i;
 			if (actor != player)
@@ -66,8 +66,8 @@ void Engine::update()
 
 void Engine::sendToBack(Actor *actor)
 {
-	actors.remove(actor);
-	actors.insertBefore(actor,0);
+	map->actors.remove(actor);
+	map->actors.insertBefore(actor,0);
 }
 
 void Engine::render()
@@ -76,7 +76,7 @@ void Engine::render()
 	//draw the map
 	map->render();
 	//draw the actors
-	for (Actor **iterator=actors.begin(); iterator != actors.end(); iterator++)
+	for (Actor **iterator=map->actors.begin(); iterator != map->actors.end(); iterator++)
 	{
 		Actor *actor=*iterator;
 		if (actor != player && ((!actor->fovOnly && map->isExplored(actor->x,actor->y)) || map->isInFov(actor->x,actor->y)))
@@ -93,7 +93,7 @@ Actor *Engine::getClosestMonster(int x, int y, float range) const
 {
 	Actor *closest=NULL;
 	float bestDistance=1E6f;
-	for (Actor **i=actors.begin(); i!=actors.end(); i++)
+	for (Actor **i=map->actors.begin(); i!=map->actors.end(); i++)
 	{
 		Actor *actor=*i;
 		if (actor != player && actor->destructible && !actor->destructible->isDead())
@@ -111,20 +111,24 @@ Actor *Engine::getClosestMonster(int x, int y, float range) const
 
 void Engine::init()
 {
-	player = new Actor(40,25,'@',"player",TCODColor::white);
+        player = new Actor(40,25,'@',"player",TCODColor::white);
 	player->destructible=new PlayerDestructible(30,2,"your cadaver");
 	player->attacker=new Attacker(5);
 	player->ai = new PlayerAi();
 	player->container = new Container(26);
-	actors.push(player);
+	
 	stairs = new Actor(0,0,'>',"stairs",TCODColor::white);
 	stairs->blocks=false;
 	stairs->fovOnly=false;
-	actors.push(stairs);
-	sendToBack(stairs);
-	map = new Map(80,43);
+
+        map = new Map(80,43);
 	map -> init(true);
         map = TCODMapGenerator::makeDefaultMap(map); //example
+
+	map->actors.push(stairs);
+        map->actors.push(player);
+	sendToBack(stairs);
+	
 	topGui->message(TCODColor::red,"Welcome stranger\nPrepare to perish in the Tombs of the Ancient Kings.");
 }
 
@@ -146,8 +150,8 @@ void Engine::save()
 		//then the stairs
 		stairs->save(zip);
 		//then all the other actors
-		zip.putInt(actors.size()-2);
-		for (Actor **i=actors.begin(); i!=actors.end(); i++)
+		zip.putInt(map->actors.size()-2);
+		for (Actor **i=map->actors.begin(); i!=map->actors.end(); i++)
 		{
 			if (*i!=player && *i!=stairs)
 			{
@@ -172,11 +176,11 @@ void Engine::load()
 	//then the player
 	player=new Actor(0,0,0,NULL,TCODColor::white);
 	player->load(zip);
-	actors.push(player);
+	map->actors.push(player);
 	// the stairs
 	stairs=new Actor(0,0,0,NULL,TCODColor::white);
 	stairs->load(zip);
-	actors.push(stairs);
+	map->actors.push(stairs);
 	sendToBack(stairs);
 	//then all other actors
 	int nbActors=zip.getInt();
@@ -184,7 +188,7 @@ void Engine::load()
 	{
 		Actor *actor = new Actor(0,0,0,NULL,TCODColor::white);
 		actor->load(zip);
-		actors.push(actor);
+		map->actors.push(actor);
 		sendToBack(actor);
 		nbActors--;
 	}

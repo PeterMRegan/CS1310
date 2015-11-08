@@ -7,7 +7,7 @@ bool Pickable::pick(Actor *owner, Actor *wearer)
 {
 	if (wearer->container && wearer->container->add(owner))
 	{
-		engine.actors.remove(owner);
+		engine.map->actors.remove(owner);
 		return true;
 	}
 	return false;
@@ -29,7 +29,7 @@ void Pickable::drop(Actor *owner, Actor *wearer)
 	if (wearer->container)
 	{
 		wearer->container->remove(owner);
-		engine.actors.push(owner);
+		engine.map->actors.push(owner);
 		engine.sendToBack(owner);
 		owner->x=wearer->x;
 		owner->y=wearer->y;

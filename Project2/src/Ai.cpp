@@ -10,7 +10,7 @@ bool PlayerAi::moveOrAttack(Actor *owner, int targetx, int targety)
 {
 	if (engine.map->isWall(targetx, targety)) return false;
 	//look for living actors to attack
-	for (Actor **i=engine.actors.begin();i != engine.actors.end(); i++)
+	for (Actor **i=engine.map->actors.begin();i != engine.map->actors.end(); i++)
 	{
 		Actor *actor = *i;
 		if (actor->destructible && !actor->destructible->isDead() && actor->x == targetx && actor->y == targety)
@@ -20,7 +20,7 @@ bool PlayerAi::moveOrAttack(Actor *owner, int targetx, int targety)
 		}
 	}
 	//look for corpses or items
-	for (Actor **i=engine.actors.begin();i != engine.actors.end(); i++)
+	for (Actor **i=engine.map->actors.begin();i != engine.map->actors.end(); i++)
 	{
 		Actor *actor=*i;
 		bool corpseOrItem=(actor->destructible && actor->destructible->isDead()) || actor->pickable;
@@ -68,7 +68,7 @@ void PlayerAi::handleActionKey(Actor *owner, int ascii)
 		case ',' : //pickup item
 		{
 			bool found=false;
-			for (Actor **i=engine.actors.begin(); i!=engine.actors.end(); i++)
+			for (Actor **i=engine.map->actors.begin(); i!=engine.map->actors.end(); i++)
 			{
 				Actor *actor=*i;
 				if (actor->pickable && actor->x == owner->x && actor->y == owner->y)
