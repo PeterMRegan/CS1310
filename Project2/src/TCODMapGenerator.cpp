@@ -28,10 +28,10 @@ private :
     int roomNum; // room number
     int lastx,lasty; // center of the last room
     TCODRandom* rng;
-    TCODList<Room*> roomList;
+    TCODList<Room*>& rl;
 
 public :
-    BspListener(Map &map, TCODList<Room*> roomList) : map(map), roomNum(0) 
+    BspListener(Map &map, TCODList<Room*>& roomList) : map(map), roomNum(0), rl(roomList) 
     {
         rng = new TCODRandom(TCODRandom::getInstance()->getInt(0,0x7FFFFFFF), TCOD_RNG_CMWC);
     }
@@ -47,7 +47,7 @@ public :
                 h=rng->getInt(ROOM_MIN_SIZE, node->h-2);
                 x=rng->getInt(node->x+1, node->x+node->w-w-1);
                 y=rng->getInt(node->y+1, node->y+node->h-h-1);
-                roomList.push(new Room(x, y, x+w-1, y+h-1, roomNum));
+                rl.push(new Room(x, y, x+w-1, y+h-1, roomNum));
                 map.createRoom(roomNum == 0, x, y, x+w-1, y+h-1, withActors);
                 if (roomNum != 0)
                     {
@@ -76,6 +76,8 @@ Map* TCODMapGenerator::makeDefaultMap(Map* map)
     TCODList<Room*> roomList;
 
     BspListener listener(*map, roomList);
+
+    roomList.push(new Room(0, 0, 1, 1, 0));
     bsp.traverseInvertedLevelOrder(&listener, (void*)true);
 
     cout << roomList.size() << " woo" << endl;
